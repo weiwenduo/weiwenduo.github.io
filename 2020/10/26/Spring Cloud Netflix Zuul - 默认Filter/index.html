@@ -11,7 +11,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>使用JMeter测试接口并发 | W</title>
+	<title>Spring Cloud Netflix Zuul - 默认Filter | W</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -39,14 +39,14 @@
 
 	<meta property="og:site_name" content="W">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="使用JMeter测试接口并发 | W">
+	<meta property="og:title" content="Spring Cloud Netflix Zuul - 默认Filter | W">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://weiwenduo.github.io/2019/09/03/%E4%BD%BF%E7%94%A8JMeter%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3%E5%B9%B6%E5%8F%91/">
+	<meta property="og:url" content="http://weiwenduo.github.io/2020/10/26/Spring%20Cloud%20Netflix%20Zuul%20-%20%E9%BB%98%E8%AE%A4Filter/">
 
 	
-	<meta property="article:published_time" content="2019-09-03T17:09:00+08:00"> 
+	<meta property="article:published_time" content="2020-10-26T22:10:00+08:00"> 
 	<meta property="article:author" content="文铎">
-	<meta property="article:published_first" content="W, /2019/09/03/%E4%BD%BF%E7%94%A8JMeter%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3%E5%B9%B6%E5%8F%91/">
+	<meta property="article:published_first" content="W, /2020/10/26/Spring%20Cloud%20Netflix%20Zuul%20-%20%E9%BB%98%E8%AE%A4Filter/">
 	
 
 	
@@ -124,80 +124,55 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-09-03T09:13:56.000Z">
-                    2019-09-3
+                <time class="post-full-meta-date" datetime="2020-10-26T14:32:48.000Z">
+                    2020-10-26
                 </time>
                 
                 <span class="date-divider">/</span>
                 
-                <a href="/categories/%E6%B5%8B%E8%AF%95/">测试</a>  
+                <a href="/categories/Spring-Cloud/">Spring Cloud</a>  
                 
                 
             </div>
-            <h1 class="post-full-title">使用JMeter测试接口并发</h1>
+            <h1 class="post-full-title">Spring Cloud Netflix Zuul - 默认Filter</h1>
         </header>
         <div class="post-full no-image">
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <p>测试工具：Apache JMeter 5.1.1</p>
-<a id="more"></a>
+                    <h2 id="Spring-Cloud-Netflix-Zuul"><a href="#Spring-Cloud-Netflix-Zuul" class="headerlink" title="Spring Cloud Netflix Zuul"></a>Spring Cloud Netflix Zuul</h2><a id="more"></a>
 
-<ol>
-<li>创建线程组</li>
-</ol>
-<img alt="T0cEiB" style="zoom: 20%;" class="post-img b-lazy" data-img="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/T0cEiB.png" data-index="0" data-src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/T0cEiB.png">
+<h3 id="FilterConstants"><a href="#FilterConstants" class="headerlink" title="FilterConstants"></a>FilterConstants</h3><p>在<strong>org.springframework.cloud.netflix.zuul.filters.support.FilterConstants</strong>中，可以看到Zuul定义了一些默认Filter的执行顺序。</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterConstants</span> </span>{</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//省略...</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// ORDER constants -----------------------------------</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Filter Order for {<span class="doctag">@link</span> DebugFilter#filterOrder()}.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEBUG_FILTER_ORDER = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Filter Order for</span></span><br><span class="line"><span class="comment">	 * {<span class="doctag">@link</span> org.springframework.cloud.netflix.zuul.filters.pre.FormBodyWrapperFilter#filterOrder()}.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> FORM_BODY_WRAPPER_FILTER_ORDER = -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Filter Order for</span></span><br><span class="line"><span class="comment">	 * {<span class="doctag">@link</span> org.springframework.cloud.netflix.zuul.filters.pre.PreDecorationFilter}.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> PRE_DECORATION_FILTER_ORDER = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Filter Order for</span></span><br><span class="line"><span class="comment">	 * {<span class="doctag">@link</span> org.springframework.cloud.netflix.zuul.filters.route.RibbonRoutingFilter#filterOrder()}.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> RIBBON_ROUTING_FILTER_ORDER = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Filter Order for</span></span><br><span class="line"><span class="comment">	 * {<span class="doctag">@link</span> org.springframework.cloud.netflix.zuul.filters.post.SendErrorFilter#filterOrder()}.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SEND_ERROR_FILTER_ORDER = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Filter Order for {<span class="doctag">@link</span> SendForwardFilter#filterOrder()}.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SEND_FORWARD_FILTER_ORDER = <span class="number">500</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Filter Order for</span></span><br><span class="line"><span class="comment">	 * {<span class="doctag">@link</span> org.springframework.cloud.netflix.zuul.filters.post.SendResponseFilter#filterOrder()}.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SEND_RESPONSE_FILTER_ORDER = <span class="number">1000</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Filter Order for</span></span><br><span class="line"><span class="comment">	 * {<span class="doctag">@link</span> org.springframework.cloud.netflix.zuul.filters.route.SimpleHostRoutingFilter#filterOrder()}.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SIMPLE_HOST_ROUTING_FILTER_ORDER = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * filter order for {<span class="doctag">@link</span> Servlet30WrapperFilter#filterOrder()}.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SERVLET_30_WRAPPER_FILTER_ORDER = -<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * filter order for</span></span><br><span class="line"><span class="comment">	 * {<span class="doctag">@link</span> org.springframework.cloud.netflix.zuul.filters.pre.ServletDetectionFilter#filterOrder()}.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SERVLET_DETECTION_FILTER_ORDER = -<span class="number">3</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//省略...</span></span><br><span class="line">  </span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
-<p><img alt="5E4342FD-F1A4-4D3B-A441-320F4ED2DFDD" class="post-img b-lazy" data-img="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/5E4342FD-F1A4-4D3B-A441-320F4ED2DFDD.png" data-index="1" data-src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/5E4342FD-F1A4-4D3B-A441-320F4ED2DFDD.png"></p>
-<ul>
-<li>线程数：同时请求的数量</li>
-<li>Ramp-Up时间：线程之间间隔的时间</li>
-<li>循环次数：该线程组循环运行的次数</li>
+<h3 id="默认Filter"><a href="#默认Filter" class="headerlink" title="默认Filter"></a>默认Filter</h3><h4 id="pre"><a href="#pre" class="headerlink" title="pre"></a>pre</h4><ul>
+<li>ServletDetectionFilter (-3)：检测请求是通过DispatcherServlet还是ZuulServlet 运行的.</li>
+<li>Servlet30WrapperFilter(-2)：对Servlet3.0环境的包装器过滤</li>
+<li>FormBodyWrapperFilter(-1)：为下游服务解析表单数据并重新编码.仅在content-type为application/x-www-form-urlencoded或者multipart/form-data时生效.</li>
+<li>DebugFilter(1)：如果设置了“debug”请求参数，则将{@link RequestContext}调试属性设置为true</li>
+<li>PreDecorationFilter(5)：根据提供的{@link RouteLocator}确定路由的位置和方式。 *还为下游请求设置各种代理相关的标头</li>
 </ul>
-<ol start="2">
-<li>添加HTTP请求</li>
-</ol>
-<img alt="9E71A288-B9C8-4744-9A38-DEF4AA5866AA" style="zoom:40%;" class="post-img b-lazy" data-img="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/9E71A288-B9C8-4744-9A38-DEF4AA5866AA.png" data-index="2" data-src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/9E71A288-B9C8-4744-9A38-DEF4AA5866AA.png">
-
-<p><img alt="5DFFB027-1824-4BF7-A6CA-5B1907EB457E" class="post-img b-lazy" data-img="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/5DFFB027-1824-4BF7-A6CA-5B1907EB457E.png" data-index="3" data-src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/5DFFB027-1824-4BF7-A6CA-5B1907EB457E.png"></p>
-<ol start="3">
-<li>在『线程组』中添加『HTTP信息头管理器』</li>
-</ol>
-<img alt="DB706B5D-C37E-44FA-920C-52653B61B0C2" style="zoom:40%;" class="post-img b-lazy" data-img="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/DB706B5D-C37E-44FA-920C-52653B61B0C2.png" data-index="4" data-src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/DB706B5D-C37E-44FA-920C-52653B61B0C2.png">
-
-<p><img alt="E3554723-82BB-4070-8832-7B4B2BD7234C" class="post-img b-lazy" data-img="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/E3554723-82BB-4070-8832-7B4B2BD7234C.png" data-index="5" data-src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/E3554723-82BB-4070-8832-7B4B2BD7234C.png"></p>
-<ol start="4">
-<li>添加『用表格查看结果』</li>
-</ol>
-<img alt="EF05095C-9F22-4F78-AB33-3CC6C31C81A8" style="zoom:44%;" class="post-img b-lazy" data-img="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/EF05095C-9F22-4F78-AB33-3CC6C31C81A8.png" data-index="6" data-src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/EF05095C-9F22-4F78-AB33-3CC6C31C81A8.png">
-
-<ol start="5">
-<li>点击『启动』即可看到执行结果</li>
-</ol>
-<p><img alt="54F3FFC5-64FB-4A41-A5D6-CAC806B7EE3B" class="post-img b-lazy" data-img="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/54F3FFC5-64FB-4A41-A5D6-CAC806B7EE3B.png" data-index="7" data-src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/54F3FFC5-64FB-4A41-A5D6-CAC806B7EE3B.png"></p>
-<p>输出结果意义：</p>
-<p>Sample：每个请求的序号</p>
-<p>Start Time：每个请求开始时间</p>
-<p>Thread Name：每个线程的名称</p>
-<p>Label：Http请求名称</p>
-<p>Sample Time：每个请求所花时间，单位毫秒</p>
-<p>Status：请求状态，如果为勾则表示成功，如果为叉表示失败。</p>
-<p>Bytes：请求的字节数</p>
-<p>在下面还有几个参数：</p>
-<p>样本数目：也就是上面所说的请求个数，成功的情况下等于你设定的并发数目乘以循环次数</p>
-<p>平均：每个线程请求的平均时间</p>
-<p>最新样本：表示服务器响应最后一个请求的时间</p>
-<p>偏离：服务器响应时间变化、离散程度测量值的大小。</p>
+<h4 id="route"><a href="#route" class="headerlink" title="route"></a>route</h4><ul>
+<li>RibbonRoutingFilter(10)：使用Ribbon，Hystrix和可插入的http客户端发送请求。</li>
+<li>SimpleHostRoutingFilter(100)：通过过apache http clients向预定的url发送请求.</li>
+<li>SendForwardFilter(500)：使用requestDispatcher 转发请求.</li>
+</ul>
+<h4 id="post"><a href="#post" class="headerlink" title="post"></a>post</h4><ul>
+<li>SendResponseFilter(1000)：将代理请求的响应写入当前响应。</li>
+</ul>
+<h4 id="error"><a href="#error" class="headerlink" title="error"></a>error</h4><ul>
+<li>SendErrorFilter(0)：默认情况下转发到/error路径,如果RequestContext.getThrowable()不是空。</li>
+</ul>
 
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/JMeter/" rel="tag"># JMeter</a>
+                        <a href="/tags/Zuul/" rel="tag"># Zuul</a>
                     </li>
                     
                     <li>
-                        <a href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag"># 测试</a>
+                        <a href="/tags/Spring-Cloud/" rel="tag"># Spring Cloud</a>
                     </li>
                     
                 </ul>
@@ -208,11 +183,11 @@
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Spring Cloud Netflix Zuul - Filter的四个阶段" href="/2020/10/26/Spring%20Cloud%20Netflix%20Zuul%20-%20Filter%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5/">
-            ← Spring Cloud Netflix Zuul - Filter的四个阶段
-        </a>
-        
         <span class="prev-next-post">·</span>
+        
+        <a class="next-post" title="Spring Cloud Netflix Zuul - Filter的四个阶段" href="/2020/10/26/Spring%20Cloud%20Netflix%20Zuul%20-%20Filter%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5/">
+            Spring Cloud Netflix Zuul - Filter的四个阶段 →
+        </a>
         
     </nav>
 
@@ -233,7 +208,7 @@
         </a>
     </div>
     <div class="toc-main">
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-Cloud-Netflix-Zuul"><span class="toc-text">Spring Cloud Netflix Zuul</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FilterConstants"><span class="toc-text">FilterConstants</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#默认Filter"><span class="toc-text">默认Filter</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#pre"><span class="toc-text">pre</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#route"><span class="toc-text">route</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#post"><span class="toc-text">post</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#error"><span class="toc-text">error</span></a></li></ol></li></ol></li></ol>
     </div>
 </div>
 

@@ -11,7 +11,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>使用JMeter测试接口并发 | W</title>
+	<title>Spring Cloud Netflix Zuul - Filter的四个阶段 | W</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -39,14 +39,14 @@
 
 	<meta property="og:site_name" content="W">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="使用JMeter测试接口并发 | W">
+	<meta property="og:title" content="Spring Cloud Netflix Zuul - Filter的四个阶段 | W">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://weiwenduo.github.io/2019/09/03/%E4%BD%BF%E7%94%A8JMeter%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3%E5%B9%B6%E5%8F%91/">
+	<meta property="og:url" content="http://weiwenduo.github.io/2020/10/26/Spring%20Cloud%20Netflix%20Zuul%20-%20Filter%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5/">
 
 	
-	<meta property="article:published_time" content="2019-09-03T17:09:00+08:00"> 
+	<meta property="article:published_time" content="2020-10-26T22:10:00+08:00"> 
 	<meta property="article:author" content="文铎">
-	<meta property="article:published_first" content="W, /2019/09/03/%E4%BD%BF%E7%94%A8JMeter%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3%E5%B9%B6%E5%8F%91/">
+	<meta property="article:published_first" content="W, /2020/10/26/Spring%20Cloud%20Netflix%20Zuul%20-%20Filter%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5/">
 	
 
 	
@@ -124,80 +124,40 @@
     <div class="inner">
         <header class="post-full-header">
             <div class="post-full-meta">
-                <time class="post-full-meta-date" datetime="2019-09-03T09:13:56.000Z">
-                    2019-09-3
+                <time class="post-full-meta-date" datetime="2020-10-26T14:20:09.000Z">
+                    2020-10-26
                 </time>
                 
                 <span class="date-divider">/</span>
                 
-                <a href="/categories/%E6%B5%8B%E8%AF%95/">测试</a>  
+                <a href="/categories/Spring-Cloud/">Spring Cloud</a>  
                 
                 
             </div>
-            <h1 class="post-full-title">使用JMeter测试接口并发</h1>
+            <h1 class="post-full-title">Spring Cloud Netflix Zuul - Filter的四个阶段</h1>
         </header>
         <div class="post-full no-image">
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <p>测试工具：Apache JMeter 5.1.1</p>
-<a id="more"></a>
+                    <h2 id="Spring-Cloud-Netflix-Zuul"><a href="#Spring-Cloud-Netflix-Zuul" class="headerlink" title="Spring Cloud Netflix Zuul"></a>Spring Cloud Netflix Zuul</h2><a id="more"></a>
 
-<ol>
-<li>创建线程组</li>
-</ol>
-<img alt="T0cEiB" style="zoom: 20%;" class="post-img b-lazy" data-img="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/T0cEiB.png" data-index="0" data-src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/T0cEiB.png">
+<h3 id="FilterConstants"><a href="#FilterConstants" class="headerlink" title="FilterConstants"></a>FilterConstants</h3><p>在<strong>org.springframework.cloud.netflix.zuul.filters.support.FilterConstants</strong>中，可以看到Zuul定义了Filter的类型（Type）。</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterConstants</span> </span>{</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//省略...</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// Zuul Filter TYPE constants -----------------------------------</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * {<span class="doctag">@link</span> ZuulFilter#filterType()} error type.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String ERROR_TYPE = <span class="string">"error"</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * {<span class="doctag">@link</span> ZuulFilter#filterType()} post type.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String POST_TYPE = <span class="string">"post"</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * {<span class="doctag">@link</span> ZuulFilter#filterType()} pre type.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String PRE_TYPE = <span class="string">"pre"</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * {<span class="doctag">@link</span> ZuulFilter#filterType()} route type.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String ROUTE_TYPE = <span class="string">"route"</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//省略...</span></span><br><span class="line">  </span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
-<p><img alt="5E4342FD-F1A4-4D3B-A441-320F4ED2DFDD" class="post-img b-lazy" data-img="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/5E4342FD-F1A4-4D3B-A441-320F4ED2DFDD.png" data-index="1" data-src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/5E4342FD-F1A4-4D3B-A441-320F4ED2DFDD.png"></p>
-<ul>
-<li>线程数：同时请求的数量</li>
-<li>Ramp-Up时间：线程之间间隔的时间</li>
-<li>循环次数：该线程组循环运行的次数</li>
-</ul>
-<ol start="2">
-<li>添加HTTP请求</li>
-</ol>
-<img alt="9E71A288-B9C8-4744-9A38-DEF4AA5866AA" style="zoom:40%;" class="post-img b-lazy" data-img="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/9E71A288-B9C8-4744-9A38-DEF4AA5866AA.png" data-index="2" data-src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/9E71A288-B9C8-4744-9A38-DEF4AA5866AA.png">
+<h3 id="ZuulServlet"><a href="#ZuulServlet" class="headerlink" title="ZuulServlet"></a>ZuulServlet</h3><p>在<strong>com.netflix.zuul.http.ZuulServlet</strong>中，可以看到不同类型的Filter的执行顺序。</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ZuulServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>{</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//省略...</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(javax.servlet.ServletRequest servletRequest, javax.servlet.ServletResponse servletResponse)</span> <span class="keyword">throws</span> ServletException, IOException </span>{</span><br><span class="line">        <span class="keyword">try</span> {</span><br><span class="line">            init((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Marks this request as having passed through the "Zuul engine", as opposed to servlets</span></span><br><span class="line">            <span class="comment">// explicitly bound in web.xml, for which requests will not have the same data attached</span></span><br><span class="line">            RequestContext context = RequestContext.getCurrentContext();</span><br><span class="line">            context.setZuulEngineRan();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span> {</span><br><span class="line">                preRoute();</span><br><span class="line">            } <span class="keyword">catch</span> (ZuulException e) {</span><br><span class="line">                error(e);</span><br><span class="line">                postRoute();</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">try</span> {</span><br><span class="line">                route();</span><br><span class="line">            } <span class="keyword">catch</span> (ZuulException e) {</span><br><span class="line">                error(e);</span><br><span class="line">                postRoute();</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">try</span> {</span><br><span class="line">                postRoute();</span><br><span class="line">            } <span class="keyword">catch</span> (ZuulException e) {</span><br><span class="line">                error(e);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            }</span><br><span class="line"></span><br><span class="line">        } <span class="keyword">catch</span> (Throwable e) {</span><br><span class="line">            error(<span class="keyword">new</span> ZuulException(e, <span class="number">500</span>, <span class="string">"UNHANDLED_EXCEPTION_"</span> + e.getClass().getName()));</span><br><span class="line">        } <span class="keyword">finally</span> {</span><br><span class="line">            RequestContext.getCurrentContext().unset();</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//省略...</span></span><br><span class="line">  </span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
-<p><img alt="5DFFB027-1824-4BF7-A6CA-5B1907EB457E" class="post-img b-lazy" data-img="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/5DFFB027-1824-4BF7-A6CA-5B1907EB457E.png" data-index="3" data-src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/5DFFB027-1824-4BF7-A6CA-5B1907EB457E.png"></p>
-<ol start="3">
-<li>在『线程组』中添加『HTTP信息头管理器』</li>
-</ol>
-<img alt="DB706B5D-C37E-44FA-920C-52653B61B0C2" style="zoom:40%;" class="post-img b-lazy" data-img="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/DB706B5D-C37E-44FA-920C-52653B61B0C2.png" data-index="4" data-src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/DB706B5D-C37E-44FA-920C-52653B61B0C2.png">
-
-<p><img alt="E3554723-82BB-4070-8832-7B4B2BD7234C" class="post-img b-lazy" data-img="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/E3554723-82BB-4070-8832-7B4B2BD7234C.png" data-index="5" data-src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/E3554723-82BB-4070-8832-7B4B2BD7234C.png"></p>
-<ol start="4">
-<li>添加『用表格查看结果』</li>
-</ol>
-<img alt="EF05095C-9F22-4F78-AB33-3CC6C31C81A8" style="zoom:44%;" class="post-img b-lazy" data-img="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/EF05095C-9F22-4F78-AB33-3CC6C31C81A8.png" data-index="6" data-src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/EF05095C-9F22-4F78-AB33-3CC6C31C81A8.png">
-
-<ol start="5">
-<li>点击『启动』即可看到执行结果</li>
-</ol>
-<p><img alt="54F3FFC5-64FB-4A41-A5D6-CAC806B7EE3B" class="post-img b-lazy" data-img="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/54F3FFC5-64FB-4A41-A5D6-CAC806B7EE3B.png" data-index="7" data-src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/54F3FFC5-64FB-4A41-A5D6-CAC806B7EE3B.png"></p>
-<p>输出结果意义：</p>
-<p>Sample：每个请求的序号</p>
-<p>Start Time：每个请求开始时间</p>
-<p>Thread Name：每个线程的名称</p>
-<p>Label：Http请求名称</p>
-<p>Sample Time：每个请求所花时间，单位毫秒</p>
-<p>Status：请求状态，如果为勾则表示成功，如果为叉表示失败。</p>
-<p>Bytes：请求的字节数</p>
-<p>在下面还有几个参数：</p>
-<p>样本数目：也就是上面所说的请求个数，成功的情况下等于你设定的并发数目乘以循环次数</p>
-<p>平均：每个线程请求的平均时间</p>
-<p>最新样本：表示服务器响应最后一个请求的时间</p>
-<p>偏离：服务器响应时间变化、离散程度测量值的大小。</p>
 
                 </article>
                 <ul class="tags-postTags">
                     
                     <li>
-                        <a href="/tags/JMeter/" rel="tag"># JMeter</a>
+                        <a href="/tags/Zuul/" rel="tag"># Zuul</a>
                     </li>
                     
                     <li>
-                        <a href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag"># 测试</a>
+                        <a href="/tags/Spring-Cloud/" rel="tag"># Spring Cloud</a>
                     </li>
                     
                 </ul>
@@ -208,11 +168,15 @@
     
     <nav id="gobottom" class="pagination">
         
-        <a class="prev-post" title="Spring Cloud Netflix Zuul - Filter的四个阶段" href="/2020/10/26/Spring%20Cloud%20Netflix%20Zuul%20-%20Filter%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5/">
-            ← Spring Cloud Netflix Zuul - Filter的四个阶段
+        <a class="prev-post" title="Spring Cloud Netflix Zuul - 默认Filter" href="/2020/10/26/Spring%20Cloud%20Netflix%20Zuul%20-%20%E9%BB%98%E8%AE%A4Filter/">
+            ← Spring Cloud Netflix Zuul - 默认Filter
         </a>
         
         <span class="prev-next-post">·</span>
+        
+        <a class="next-post" title="使用JMeter测试接口并发" href="/2019/09/03/%E4%BD%BF%E7%94%A8JMeter%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3%E5%B9%B6%E5%8F%91/">
+            使用JMeter测试接口并发 →
+        </a>
         
     </nav>
 
@@ -233,7 +197,7 @@
         </a>
     </div>
     <div class="toc-main">
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-Cloud-Netflix-Zuul"><span class="toc-text">Spring Cloud Netflix Zuul</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FilterConstants"><span class="toc-text">FilterConstants</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ZuulServlet"><span class="toc-text">ZuulServlet</span></a></li></ol></li></ol>
     </div>
 </div>
 
