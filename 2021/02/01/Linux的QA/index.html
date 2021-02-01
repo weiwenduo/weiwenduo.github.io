@@ -11,7 +11,7 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Linux下修改hosts | W</title>
+	<title>Linux的QA | W</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -39,14 +39,14 @@
 
 	<meta property="og:site_name" content="W">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Linux下修改hosts | W">
+	<meta property="og:title" content="Linux的QA | W">
 	<meta property="og:description" content>
-	<meta property="og:url" content="http://weiwenduo.github.io/2021/02/01/Linux%E4%B8%8B%E4%BF%AE%E6%94%B9hosts/">
+	<meta property="og:url" content="http://weiwenduo.github.io/2021/02/01/Linux%E7%9A%84QA/">
 
 	
 	<meta property="article:published_time" content="2021-02-01T10:02:00+08:00"> 
 	<meta property="article:author" content="文铎">
-	<meta property="article:published_first" content="W, /2021/02/01/Linux%E4%B8%8B%E4%BF%AE%E6%94%B9hosts/">
+	<meta property="article:published_first" content="W, /2021/02/01/Linux%E7%9A%84QA/">
 	
 
 	
@@ -132,20 +132,32 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Linux下修改hosts</h1>
+            <h1 class="post-full-title">Linux的QA</h1>
         </header>
         <div class="post-full no-image">
             
             <div class="post-full-content">
                 <article id="photoswipe" class="markdown-body">
-                    <ul>
+                    <ol>
+<li>host文件相关</li>
+</ol>
+<ul>
 <li>hosts文件在/etc/hosts</li>
 <li>修改完成后如何生效<ol>
 <li>安装nscd<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install nscd</span><br></pre></td></tr></tbody></table></figure></li>
 <li>清除DNS数据<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/nscd restart</span><br></pre></td></tr></tbody></table></figure></li>
-<li>若无效，则清除DNS缓存<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/networking restart</span><br></pre></td></tr></tbody></table></figure></li>
+<li>若无效，则清除DNS缓存<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/networking restart</span><br></pre></td></tr></tbody></table></figure>
+</li>
 </ol>
 </li>
+</ul>
+<ol start="2">
+<li>安装CentOS后访问网络报错”network is unreachable”</li>
+</ol>
+<ul>
+<li>编辑<strong>/etc/sysconfig/network-scripts</strong>文件夹下的<strong>ifcfg-enxxx</strong>文件</li>
+<li>将ONBOOT属性改为yes</li>
+<li>重启网络<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service network restart</span><br></pre></td></tr></tbody></table></figure></li>
 </ul>
 
                 </article>
@@ -290,7 +302,7 @@
       
       
       <li>
-        <a href="/2021/02/01/Linux%E4%B8%8B%E4%BF%AE%E6%94%B9hosts/">Linux下修改hosts</a>
+        <a href="/2021/02/01/Linux%E7%9A%84QA/">Linux的QA</a>
       </li>
       
       
