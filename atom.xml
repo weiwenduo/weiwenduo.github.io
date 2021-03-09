@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>W</title>
+  
+  
+  <link href="http://weiwenduo.github.io/atom.xml" rel="self"/>
+  
+  <link href="http://weiwenduo.github.io/"/>
+  <updated>2021-03-09T10:34:49.426Z</updated>
+  <id>http://weiwenduo.github.io/</id>
+  
+  <author>
+    <name>文铎</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JVM之堆(Heap Area)</title>
+    <link href="http://weiwenduo.github.io/2021/03/09/JVM%E4%B9%8B%E5%A0%86(Heap%20Area)/"/>
+    <id>http://weiwenduo.github.io/2021/03/09/JVM%E4%B9%8B%E5%A0%86(Heap%20Area)/</id>
+    <published>2021-03-09T10:33:18.000Z</published>
+    <updated>2021-03-09T10:34:49.426Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h3><h3 id="2-分代"><a href="#2-分代" class="headerlink" title="2. 分代"></a>2. 分代</h3><h3 id="3-垃圾回收算法"><a href="#3-垃圾回收算法" class="headerlink" title="3. 垃圾回收算法"></a>3. 垃圾回收算法</h3><h3 id="4-垃圾收集器"><a href="#4-垃圾收集器" class="headerlink" title="4. 垃圾收集器"></a>4. 垃圾收集器</h3>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;1-概述&quot;&gt;&lt;a href=&quot;#1-概述&quot; class=&quot;headerlink&quot; title=&quot;1. 概述&quot;&gt;&lt;/a&gt;1. 概述&lt;/h3&gt;&lt;h3 id=&quot;2-分代&quot;&gt;&lt;a href=&quot;#2-分代&quot; class=&quot;headerlink&quot; title=&quot;2. 分代&quot;&gt;</summary>
+      
+    
+    
+    
+    <category term="Java" scheme="http://weiwenduo.github.io/categories/Java/"/>
+    
+    
+    <category term="Java" scheme="http://weiwenduo.github.io/tags/Java/"/>
+    
+    <category term="JVM" scheme="http://weiwenduo.github.io/tags/JVM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Seata简述</title>
+    <link href="http://weiwenduo.github.io/2021/03/09/Seata%E4%B9%8BAT%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://weiwenduo.github.io/2021/03/09/Seata%E4%B9%8BAT%E6%A8%A1%E5%BC%8F/</id>
+    <published>2021-03-09T08:40:13.000Z</published>
+    <updated>2021-03-09T08:40:27.932Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-Seata的模块组成"><a href="#1-Seata的模块组成" class="headerlink" title="1. Seata的模块组成"></a>1. Seata的模块组成</h3><ol><li>TC (Transaction Coordinator)：事务协调者，维护全局和分支事务的状态，驱动全局事务提交或回滚。</li><li>TM (Transaction Manager)：事务管理器，定义全局事务的范围：开始全局事务、提交或回滚全局事务。</li><li>RM (Resource Manager)：资源管理器，管理分支事务处理的资源，与TC交谈以注册分支事务和报告分支事务的状态，并驱动分支事务提交或回滚。</li></ol><p>在Seata的中，TM和RM是作为SDK和业务放在一起，可以理解为Client。TC是一个单独的服务，在高可用模式下，通过服务治理组件暴露自己给每个Client。</p><p><img src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2021/03/09/68747470733a2f2f63646e2e6e6c61726b2e636f6d2f6c61726b2f302f323031382f706e672f31383836322f313534353239363931373838312d32366661626562392d373166612d346633652d386137612d6663333137643333383966342e706e67-20210309163801695.png" alt="img"></p><h3 id="2-工作流程"><a href="#2-工作流程" class="headerlink" title="2. 工作流程"></a>2. 工作流程</h3>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;1-Seata的模块组成&quot;&gt;&lt;a href=&quot;#1-Seata的模块组成&quot; class=&quot;headerlink&quot; title=&quot;1. Seata的模块组成&quot;&gt;&lt;/a&gt;1. Seata的模块组成&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;TC (Transaction Coordi</summary>
+      
+    
+    
+    
+    
+    <category term="分布式" scheme="http://weiwenduo.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java之volatile</title>
+    <link href="http://weiwenduo.github.io/2021/03/08/Java%E4%B9%8Bvolatile/"/>
+    <id>http://weiwenduo.github.io/2021/03/08/Java%E4%B9%8Bvolatile/</id>
+    <published>2021-03-08T03:15:44.000Z</published>
+    <updated>2021-03-08T03:17:56.823Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-内存模型"><a href="#1-内存模型" class="headerlink" title="1. 内存模型"></a>1. 内存模型</h3><h3 id="2-并发编程的三个概念"><a href="#2-并发编程的三个概念" class="headerlink" title="2. 并发编程的三个概念"></a>2. 并发编程的三个概念</h3><h4 id="2-1-原子性"><a href="#2-1-原子性" class="headerlink" title="2.1. 原子性"></a>2.1. 原子性</h4><h4 id="2-2-可见性"><a href="#2-2-可见性" class="headerlink" title="2.2. 可见性"></a>2.2. 可见性</h4><h4 id="2-3-有序性"><a href="#2-3-有序性" class="headerlink" title="2.3. 有序性"></a>2.3. 有序性</h4>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;1-内存模型&quot;&gt;&lt;a href=&quot;#1-内存模型&quot; class=&quot;headerlink&quot; title=&quot;1. 内存模型&quot;&gt;&lt;/a&gt;1. 内存模型&lt;/h3&gt;&lt;h3 id=&quot;2-并发编程的三个概念&quot;&gt;&lt;a href=&quot;#2-并发编程的三个概念&quot; class=&quot;head</summary>
+      
+    
+    
+    
+    <category term="Java" scheme="http://weiwenduo.github.io/categories/Java/"/>
+    
+    
+    <category term="Java" scheme="http://weiwenduo.github.io/tags/Java/"/>
+    
+    <category term="JMM" scheme="http://weiwenduo.github.io/tags/JMM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>自定义注解实现@Component功能</title>
+    <link href="http://weiwenduo.github.io/2021/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0@Component%E5%8A%9F%E8%83%BD/"/>
+    <id>http://weiwenduo.github.io/2021/03/03/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0@Component%E5%8A%9F%E8%83%BD/</id>
+    <published>2021-03-03T07:51:41.000Z</published>
+    <updated>2021-03-03T08:09:13.612Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-实现步骤"><a href="#1-实现步骤" class="headerlink" title="1. 实现步骤"></a>1. 实现步骤</h3><h4 id="1-1-写一个自定义注解"><a href="#1-1-写一个自定义注解" class="headerlink" title="1.1. 写一个自定义注解"></a>1.1. 写一个自定义注解</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Inherited</span></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Target</span>(&#123;ElementType.TYPE&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> WMapper &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h4 id="1-2-实现一个ImportBeanDefinitionRegistrar"><a href="#1-2-实现一个ImportBeanDefinitionRegistrar" class="headerlink" title="1.2. 实现一个ImportBeanDefinitionRegistrar"></a>1.2. 实现一个ImportBeanDefinitionRegistrar</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloImportBeanDefinitionRegister</span> <span class="keyword">implements</span> <span class="title">ImportBeanDefinitionRegistrar</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerBeanDefinitions</span><span class="params">(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry)</span> </span>&#123;</span><br><span class="line">            <span class="comment">//借助ClassPathBeanDefinitionScanner扫描类</span></span><br><span class="line">            ClassPathBeanDefinitionScanner scanner = <span class="keyword">new</span> ClassPathBeanDefinitionScanner(registry, <span class="keyword">false</span>);</span><br><span class="line">            <span class="comment">//加入自定义注解</span></span><br><span class="line">            scanner.addIncludeFilter(<span class="keyword">new</span> AnnotationTypeFilter(WMapper<span class="class">.<span class="keyword">class</span>))</span>;</span><br><span class="line">            <span class="comment">//扫描指定包</span></span><br><span class="line">            scanner.scan(<span class="string">"io.github.weiwenduo"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><h3 id="1-3-配置类"><a href="#1-3-配置类" class="headerlink" title="1.3. 配置类"></a>1.3. 配置类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Import</span>(HelloImportBeanDefinitionRegister<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">HelloConfiguration</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="1-4-写一个类，加上我们的自定义注解"><a href="#1-4-写一个类，加上我们的自定义注解" class="headerlink" title="1.4. 写一个类，加上我们的自定义注解"></a>1.4. 写一个类，加上我们的自定义注解</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WMapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloService</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="1-5-写一个测试类试一下"><a href="#1-5-写一个测试类试一下" class="headerlink" title="1.5. 写一个测试类试一下"></a>1.5. 写一个测试类试一下</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest</span>(classes = SpringBasicApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">ImportAutoConfiguration</span>(</span>&#123;HelloConfiguration<span class="class">.<span class="keyword">class</span>&#125;)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">Case1Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span>(required = <span class="keyword">false</span>)</span><br><span class="line">    <span class="keyword">private</span> OtherService otherService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Optional.ofNullable(otherService).ifPresentOrElse(</span><br><span class="line">                o -&gt; System.out.println(<span class="string">"otherService注入成功"</span>),</span><br><span class="line">                () -&gt; System.out.println(OtherService.class.getSimpleName() + "为空，注入失败")</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>输入如下结果</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2021</span>-<span class="number">03</span>-<span class="number">03</span> <span class="number">16</span>:<span class="number">06</span>:<span class="number">51.421</span>  INFO <span class="number">97481</span> --- [           main] i.g.w.spring.test.case1.Case1Test        : No active profile set, falling back to <span class="keyword">default</span> profiles: <span class="keyword">default</span></span><br><span class="line"><span class="number">2021</span>-<span class="number">03</span>-<span class="number">03</span> <span class="number">16</span>:<span class="number">06</span>:<span class="number">51.655</span>  INFO <span class="number">97481</span> --- [           main] i.g.w.spring.test.case1.Case1Test        : Started Case1Test in <span class="number">0.373</span> seconds (JVM running <span class="keyword">for</span> <span class="number">0.959</span>)</span><br><span class="line">otherService注入成功</span><br></pre></td></tr></table></figure><p>说明类已经加载到Bean容器中了。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;1-实现步骤&quot;&gt;&lt;a href=&quot;#1-实现步骤&quot; class=&quot;headerlink&quot; title=&quot;1. 实现步骤&quot;&gt;&lt;/a&gt;1. 实现步骤&lt;/h3&gt;&lt;h4 id=&quot;1-1-写一个自定义注解&quot;&gt;&lt;a href=&quot;#1-1-写一个自定义注解&quot; class=&quot;he</summary>
+      
+    
+    
+    
+    <category term="Spring" scheme="http://weiwenduo.github.io/categories/Spring/"/>
+    
+    
+    <category term="Spring" scheme="http://weiwenduo.github.io/tags/Spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>缓存穿透、缓存击穿、缓存雪崩区别和解决方案</title>
+    <link href="http://weiwenduo.github.io/2021/03/02/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E3%80%81%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
+    <id>http://weiwenduo.github.io/2021/03/02/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E3%80%81%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</id>
+    <published>2021-03-02T10:57:40.000Z</published>
+    <updated>2021-03-03T06:39:52.536Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-缓存处理流程"><a href="#1-缓存处理流程" class="headerlink" title="1. 缓存处理流程"></a>1. 缓存处理流程</h3><p>前台请求，后台先从缓存中取数据，取到直接返回结果，取不到时从数据库中取，数据库取到更新缓存，并返回结果，数据库也没取到，那直接返回空结果。 </p><p><img src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2021/03/02/70.png" alt="img"></p><h3 id="2-缓存穿透"><a href="#2-缓存穿透" class="headerlink" title="2. 缓存穿透"></a>2. 缓存穿透</h3><p>描述：</p><p>缓存穿透是指缓存和数据库中都没有的数据，而用户不断发起请求，如发起为id为“-1”的数据或id为特别大不存在的数据。这时的用户很可能是攻击者，攻击会导致数据库压力过大。</p><p>解决方案：</p><p>接口层增加校验，如用户鉴权校验，id做基础校验，id&lt;=0的直接拦截；<br>从缓存取不到的数据，在数据库中也没有取到，这时也可以将key-value对写为key-null，缓存有效时间可以设置短点，如30秒（设置太长会导致正常情况也没法使用）。这样可以防止攻击用户反复用同一个id暴力攻击</p><h3 id="3-缓存击穿"><a href="#3-缓存击穿" class="headerlink" title="3. 缓存击穿"></a>3. 缓存击穿</h3><p>描述：</p><p>缓存击穿是指缓存中没有但数据库中有的数据（一般是缓存时间到期），这时由于并发用户特别多，同时读缓存没读到数据，又同时去数据库去取数据，引起数据库压力瞬间增大，造成过大压力</p><p>解决方案：</p><p>设置热点数据永远不过期。<br>加互斥锁，互斥锁参考代码如下：</p><p>说明：</p><ol><li>缓存中有数据，直接走上述代码13行后就返回结果了 </li><li>缓存中没有数据，第1个进入的线程，获取锁并从数据库去取数据，没释放锁之前，其他并行进入的线程会等待100ms，再重新去缓存取数据。这样就防止都去数据库重复取数据，重复往缓存中更新数据情况出现。</li><li>当然这是简化处理，理论上如果能根据key值加锁就更好了，就是线程A从数据库取key1的数据并不妨碍线程B取key2的数据，上面代码明显做不到这点。</li></ol><h3 id="4-缓存雪崩"><a href="#4-缓存雪崩" class="headerlink" title="4. 缓存雪崩"></a>4. 缓存雪崩</h3><p>描述：</p><p>缓存雪崩是指缓存中数据大批量到过期时间，而查询数据量巨大，引起数据库压力过大甚至down机。和缓存击穿不同的是，        缓存击穿指并发查同一条数据，缓存雪崩是不同数据都过期了，很多数据都查不到从而查数据库。</p><p>解决方案：</p><p>缓存数据的过期时间设置随机，防止同一时间大量数据过期现象发生。<br>如果缓存数据库是分布式部署，将热点数据均匀分布在不同搞得缓存数据库中。<br>设置热点数据永远不过期。</p><hr><p>版权声明：本文为CSDN博主「每天进步一点点yes」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a href="https://blog.csdn.net/kongtiao5/article/details/82771694" target="_blank" rel="noopener">https://blog.csdn.net/kongtiao5/article/details/82771694</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;1-缓存处理流程&quot;&gt;&lt;a href=&quot;#1-缓存处理流程&quot; class=&quot;headerlink&quot; title=&quot;1. 缓存处理流程&quot;&gt;&lt;/a&gt;1. 缓存处理流程&lt;/h3&gt;&lt;p&gt;前台请求，后台先从缓存中取数据，取到直接返回结果，取不到时从数据库中取，数据库取到更新缓</summary>
+      
+    
+    
+    
+    <category term="缓存" scheme="http://weiwenduo.github.io/categories/%E7%BC%93%E5%AD%98/"/>
+    
+    
+    <category term="缓存" scheme="http://weiwenduo.github.io/tags/%E7%BC%93%E5%AD%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>算法之布隆过滤器</title>
+    <link href="http://weiwenduo.github.io/2021/03/02/%E7%AE%97%E6%B3%95%E4%B9%8B%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/"/>
+    <id>http://weiwenduo.github.io/2021/03/02/%E7%AE%97%E6%B3%95%E4%B9%8B%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/</id>
+    <published>2021-03-02T09:36:46.000Z</published>
+    <updated>2021-03-02T09:41:08.119Z</updated>
+    
+    <content type="html"><![CDATA[<p>在程序的世界中，布隆过滤器是程序员的一把利器，利用它可以快速地解决项目中一些比较棘手的问题。如网页 URL 去重、垃圾邮件识别、大集合中重复元素的判断和缓存穿透等问题。</p><p>布隆过滤器（Bloom Filter）是 1970 年由布隆提出的。它实际上是一个很长的二进制向量和一系列随机映射函数。布隆过滤器可以用于检索一个元素是否在一个集合中。<strong>它的优点是空间效率和查询时间都比一般的算法要好的多，缺点是有一定的误识别率和删除困难</strong>。</p><h3 id="一、布隆过滤器简介"><a href="#一、布隆过滤器简介" class="headerlink" title="一、布隆过滤器简介"></a>一、布隆过滤器简介</h3><p>当你往简单数组或列表中插入新数据时，将不会根据插入项的值来确定该插入项的索引值。这意味着新插入项的索引值与数据值之间没有直接关系。这样的话，当你需要在数组或列表中搜索相应值的时候，你必须遍历已有的集合。若集合中存在大量的数据，就会影响数据查找的效率。</p><p>针对这个问题，你可以考虑使用哈希表。<strong>利用哈希表你可以通过对 “值” 进行哈希处理来获得该值对应的键或索引值</strong>，然后把该值存放到列表中对应的索引位置。这意味着索引值是由插入项的值所确定的，当你需要判断列表中是否存在该值时，只需要对值进行哈希处理并在相应的索引位置进行搜索即可，这时的搜索速度是非常快的。</p><p><img src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2021/03/02/v2-ba324df953f121b077f7bdc2a6109f0a_1440w.jpg" alt="img"></p><p>根据定义，布隆过滤器可以检查值是 <strong>“可能在集合中”</strong> 还是 <strong>“绝对不在集合中”</strong>。“可能” 表示有一定的概率，也就是说可能存在一定为误判率。那为什么会存在误判呢？下面我们来分析一下具体的原因。</p><p>布隆过滤器（Bloom Filter）本质上是由长度为 m 的位向量或位列表（仅包含 0 或 1 位值的列表）组成，最初所有的值均设置为 0，如下图所示。</p><p><img src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2021/03/02/v2-3590d269c6cd9d5be764b4bc79335da5_1440w.jpg" alt="img"></p><p>为了将数据项添加到布隆过滤器中，我们会提供 K 个不同的哈希函数，并将结果位置上对应位的值置为 “1”。在前面所提到的哈希表中，我们使用的是单个哈希函数，因此只能输出单个索引值。而对于布隆过滤器来说，我们将使用多个哈希函数，这将会产生多个索引值。</p><p><img src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2021/03/02/v2-8c28b1d5990396202a05430bde51511b_1440w.jpg" alt="img"></p><p>如上图所示，当输入 “semlinker” 时，预设的 3 个哈希函数将输出 2、4、6，我们把相应位置 1。假设另一个输入 ”kakuqo“，哈希函数输出 3、4 和 7。你可能已经注意到，索引位 4 已经被先前的 “semlinker” 标记了。此时，我们已经使用 “semlinker” 和 ”kakuqo“ 两个输入值，填充了位向量。当前位向量的标记状态为：</p><p><img src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2021/03/02/v2-9cfe294a29af4209e476fccfae466d7d_1440w.jpg" alt="img"></p><p>当对值进行搜索时，与哈希表类似，我们将使用 3 个哈希函数对 ”搜索的值“ 进行哈希运算，并查看其生成的索引值。假设，当我们搜索 ”fullstack“ 时，3 个哈希函数输出的 3 个索引值分别是 2、3 和 7：</p><p><img src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2021/03/02/v2-9a3dec489430cffd38b310c33242bf51_1440w.jpg" alt="img"></p><p>从上图可以看出，相应的索引位都被置为 1，这意味着我们可以说 ”fullstack“ 可能已经插入到集合中。事实上这是误报的情形，产生的原因是由于哈希碰撞导致的巧合而将不同的元素存储在相同的比特位上。幸运的是，布隆过滤器有一个可预测的误判率（FPP）：</p><p><img src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2021/03/02/v2-af6d3aff3d1e50759226610d2c469b2b_1440w.jpg" alt="img"></p><ul><li>n 是已经添加元素的数量；</li><li>k 哈希的次数；</li><li>m 布隆过滤器的长度（如比特数组的大小）；</li></ul><p>极端情况下，当布隆过滤器没有空闲空间时（满），每一次查询都会返回 true 。这也就意味着 m 的选择取决于期望预计添加元素的数量 n ，并且 m 需要远远大于 n 。</p><p>实际情况中，布隆过滤器的长度 m 可以根据给定的误判率（FFP）的和期望添加的元素个数 n 的通过如下公式计算：</p><p><img src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2021/03/02/v2-19ddb2632e68e2666fd09e3c5441f542_1440w.jpg" alt="img"></p><p>了解完上述的内容之后，我们可以得出一个结论，<strong>当我们搜索一个值的时候，若该值经过 K 个哈希函数运算后的任何一个索引位为 ”0“，那么该值肯定不在集合中。但如果所有哈希索引值均为 ”1“，则只能说该搜索的值可能存在集合中</strong>。</p><h3 id="二、布隆过滤器应用"><a href="#二、布隆过滤器应用" class="headerlink" title="二、布隆过滤器应用"></a>二、布隆过滤器应用</h3><p>在实际工作中，布隆过滤器常见的应用场景如下：</p><ul><li>网页爬虫对 URL 去重，避免爬取相同的 URL 地址；</li><li>反垃圾邮件，从数十亿个垃圾邮件列表中判断某邮箱是否垃圾邮箱；</li><li>Google Chrome 使用布隆过滤器识别恶意 URL；</li><li>Medium 使用布隆过滤器避免推荐给用户已经读过的文章；</li><li>Google BigTable，Apache HBbase 和 Apache Cassandra 使用布隆过滤器减少对不存在的行和列的查找。 除了上述的应用场景之外，布隆过滤器还有一个应用场景就是解决缓存穿透的问题。所谓的缓存穿透就是服务调用方每次都是查询不在缓存中的数据，这样每次服务调用都会到数据库中进行查询，如果这类请求比较多的话，就会导致数据库压力增大，这样缓存就失去了意义。</li></ul><p>利用布隆过滤器我们可以预先把数据查询的主键，比如用户 ID 或文章 ID 缓存到过滤器中。当根据 ID 进行数据查询的时候，我们先判断该 ID 是否存在，若存在的话，则进行下一步处理。若不存在的话，直接返回，这样就不会触发后续的数据库查询。需要注意的是缓存穿透不能完全解决，我们只能将其控制在一个可以容忍的范围内。</p><h3 id="三、布隆过滤器实战"><a href="#三、布隆过滤器实战" class="headerlink" title="三、布隆过滤器实战"></a>三、布隆过滤器实战</h3><p>布隆过滤器有很多实现和优化，由 Google 开发著名的 Guava 库就提供了布隆过滤器（Bloom Filter）的实现。在基于 Maven 的 Java 项目中要使用 Guava 提供的布隆过滤器，只需要引入以下坐标：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">   &lt;groupId&gt;com.google.guava&lt;&#x2F;groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;guava&lt;&#x2F;artifactId&gt;</span><br><span class="line">   &lt;version&gt;28.0-jre&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure><p>在导入 Guava 库后，我们新建一个 BloomFilterDemo 类，在 main 方法中我们通过 BloomFilter.create 方法来创建一个布隆过滤器，接着我们初始化 1 百万条数据到过滤器中，然后在原有的基础上增加 10000 条数据并判断这些数据是否存在布隆过滤器中：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import com.google.common.base.Charsets;</span><br><span class="line">import com.google.common.hash.BloomFilter;</span><br><span class="line">import com.google.common.hash.Funnels;</span><br><span class="line"></span><br><span class="line">public class BloomFilterDemo &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        int total &#x3D; 1000000; &#x2F;&#x2F; 总数量</span><br><span class="line">        BloomFilter&lt;CharSequence&gt; bf &#x3D; </span><br><span class="line">          BloomFilter.create(Funnels.stringFunnel(Charsets.UTF_8), total);</span><br><span class="line">        &#x2F;&#x2F; 初始化 1000000 条数据到过滤器中</span><br><span class="line">        for (int i &#x3D; 0; i &lt; total; i++) &#123;</span><br><span class="line">            bf.put(&quot;&quot; + i);</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F; 判断值是否存在过滤器中</span><br><span class="line">        int count &#x3D; 0;</span><br><span class="line">        for (int i &#x3D; 0; i &lt; total + 10000; i++) &#123;</span><br><span class="line">            if (bf.mightContain(&quot;&quot; + i)) &#123;</span><br><span class="line">                count++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(&quot;已匹配数量 &quot; + count);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>当以上代码运行后，控制台会输出以下结果：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">已匹配数量 1000309</span><br></pre></td></tr></table></figure><p>很明显以上的输出结果已经出现了误报，因为相比预期的结果多了 309 个元素，误判率为：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">309&#x2F;(1000000 + 10000) * 100 ≈ 0.030594059405940593</span><br></pre></td></tr></table></figure><p>如果要提高匹配精度的话，我们可以在创建布隆过滤器的时候设置误判率 fpp：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BloomFilter&lt;CharSequence&gt; bf &#x3D; BloomFilter.create(</span><br><span class="line">  Funnels.stringFunnel(Charsets.UTF_8), total, 0.0002</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>在 BloomFilter 内部，误判率 fpp 的默认值是 0.03：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; com&#x2F;google&#x2F;common&#x2F;hash&#x2F;BloomFilter.class</span><br><span class="line">public static &lt;T&gt; BloomFilter&lt;T&gt; create(Funnel&lt;? super T&gt; funnel, long expectedInsertions) &#123;</span><br><span class="line">  return create(funnel, expectedInsertions, 0.03D);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>在重新设置误判率为 0.0002 之后，我们重新运行程序，这时控制台会输出以下结果：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">已匹配数量 1000003</span><br></pre></td></tr></table></figure><p>通过观察以上的结果，可知误判率 fpp 的值越小，匹配的精度越高。当减少误判率 fpp 的值，需要的存储空间也越大，所以在实际使用过程中需要在误判率和存储空间之间做个权衡。</p><h3 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h3><p>本文主要介绍的布隆过滤器的概念和常见的应用场合，在实战部分我们演示了 Google 著名的 Guava 库所提供布隆过滤器（Bloom Filter）的基本使用，同时我们也介绍了布隆过滤器出现误报的原因及如何提高判断准确性。最后为了便于大家理解布隆过滤器，我们介绍了一个简易版的布隆过滤器 SimpleBloomFilter。</p><hr><p>转自知乎 <a href="https://zhuanlan.zhihu.com/p/94433082" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/94433082</a></p><p>原标题：《5 分钟搞懂布隆过滤器，亿级数据过滤算法你值得拥有！》</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;在程序的世界中，布隆过滤器是程序员的一把利器，利用它可以快速地解决项目中一些比较棘手的问题。如网页 URL 去重、垃圾邮件识别、大集合中重复元素的判断和缓存穿透等问题。&lt;/p&gt;
+&lt;p&gt;布隆过滤器（Bloom Filter）是 1970 年由布隆提出的。它实际上是一个很长的二</summary>
+      
+    
+    
+    
+    <category term="算法" scheme="http://weiwenduo.github.io/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+    <category term="算法" scheme="http://weiwenduo.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JVM之体系结构</title>
+    <link href="http://weiwenduo.github.io/2021/03/02/JVM%E4%B9%8B%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/"/>
+    <id>http://weiwenduo.github.io/2021/03/02/JVM%E4%B9%8B%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/</id>
+    <published>2021-03-02T01:41:26.000Z</published>
+    <updated>2021-03-09T10:33:13.066Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h3><h3 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h3><h3 id="2-垃圾回收算法"><a href="#2-垃圾回收算法" class="headerlink" title="2. 垃圾回收算法"></a>2. 垃圾回收算法</h3>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;1-概述&quot;&gt;&lt;a href=&quot;#1-概述&quot; class=&quot;headerlink&quot; title=&quot;1. 概述&quot;&gt;&lt;/a&gt;1. 概述&lt;/h3&gt;&lt;h3 id=&quot;2&quot;&gt;&lt;a href=&quot;#2&quot; class=&quot;headerlink&quot; title=&quot;2.&quot;&gt;&lt;/a&gt;2.&lt;/h</summary>
+      
+    
+    
+    
+    <category term="Java" scheme="http://weiwenduo.github.io/categories/Java/"/>
+    
+    
+    <category term="Java" scheme="http://weiwenduo.github.io/tags/Java/"/>
+    
+    <category term="JVM" scheme="http://weiwenduo.github.io/tags/JVM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JVM之ClassLoader类加载器</title>
+    <link href="http://weiwenduo.github.io/2021/03/02/JVM%E4%B9%8BClassLoader%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/"/>
+    <id>http://weiwenduo.github.io/2021/03/02/JVM%E4%B9%8BClassLoader%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/</id>
+    <published>2021-03-02T01:41:26.000Z</published>
+    <updated>2021-03-02T08:08:37.319Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-TODO"><a href="#1-TODO" class="headerlink" title="1. TODO"></a>1. TODO</h3>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;1-TODO&quot;&gt;&lt;a href=&quot;#1-TODO&quot; class=&quot;headerlink&quot; title=&quot;1. TODO&quot;&gt;&lt;/a&gt;1. TODO&lt;/h3&gt;</summary>
+      
+    
+    
+    
+    <category term="Java" scheme="http://weiwenduo.github.io/categories/Java/"/>
+    
+    
+    <category term="Java" scheme="http://weiwenduo.github.io/tags/Java/"/>
+    
+    <category term="JVM" scheme="http://weiwenduo.github.io/tags/JVM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Maven指定执行用JDK</title>
+    <link href="http://weiwenduo.github.io/2021/02/08/Maven%E6%8C%87%E5%AE%9A%E6%89%A7%E8%A1%8C%E7%94%A8JDK/"/>
+    <id>http://weiwenduo.github.io/2021/02/08/Maven%E6%8C%87%E5%AE%9A%E6%89%A7%E8%A1%8C%E7%94%A8JDK/</id>
+    <published>2021-02-08T02:27:30.000Z</published>
+    <updated>2021-02-08T02:28:36.995Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-安装要求"><a href="#1-安装要求" class="headerlink" title="1. 安装要求"></a>1. 安装要求</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;java&#x2F;jdk-11.0.10+9&#x2F;bin&#x2F;java -Dmaven.multiModuleProjectDirectory&#x3D;&#x2F;app&#x2F;jenkins_home&#x2F;workspace&#x2F;shendu-gateway -Dmaven.home&#x3D;&#x2F;app&#x2F;maven -Dclassworlds.conf&#x3D;&#x2F;app&#x2F;maven&#x2F;bin&#x2F;m2.conf -Dfile.encoding&#x3D;UTF-8 -classpath &#x2F;app&#x2F;maven&#x2F;boot&#x2F;plexus-classworlds.license:&#x2F;app&#x2F;maven&#x2F;boot&#x2F;plexus-classworlds-2.6.0.jar org.codehaus.classworlds.Launcher clean package -Dmaven.test.skip&#x3D;true</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;1-安装要求&quot;&gt;&lt;a href=&quot;#1-安装要求&quot; class=&quot;headerlink&quot; title=&quot;1. 安装要求&quot;&gt;&lt;/a&gt;1. 安装要求&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;g</summary>
+      
+    
+    
+    
+    
+    <category term="Maven" scheme="http://weiwenduo.github.io/tags/Maven/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernetes部署</title>
+    <link href="http://weiwenduo.github.io/2021/02/01/Kubernetes%E9%83%A8%E7%BD%B2/"/>
+    <id>http://weiwenduo.github.io/2021/02/01/Kubernetes%E9%83%A8%E7%BD%B2/</id>
+    <published>2021-02-01T07:21:58.000Z</published>
+    <updated>2021-02-02T01:53:59.167Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-安装要求"><a href="#1-安装要求" class="headerlink" title="1. 安装要求"></a>1. 安装要求</h3><ul><li>系统版本：CentOS 7.x</li><li>硬件配置：内存2GB以上、CPU2核以上、硬盘大于30G</li><li>集群网络配置：集群中所有服务器内网必须互通，并且需要访问外网来拉取镜像</li><li>禁用swap分区</li></ul><h3 id="2-安装前的准备工作"><a href="#2-安装前的准备工作" class="headerlink" title="2. 安装前的准备工作"></a>2. 安装前的准备工作</h3><ul><li><p>关闭防火墙</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl stop firewalld</span><br><span class="line">$ systemctl disable firewalld</span><br></pre></td></tr></table></figure></li><li><p>关闭selinux：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sed -i &#39;s&#x2F;enforcing&#x2F;disabled&#x2F;&#39; &#x2F;etc&#x2F;selinux&#x2F;config</span><br><span class="line">$ setenforce 0</span><br></pre></td></tr></table></figure></li><li><p>关闭swap分许<br>临时关闭：swapoff -a<br>永久关闭：注释掉/etc/fstab文件中的swap行</p></li><li><p>编辑hosts文件，将所有节点的ip和主机名一一对应</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">172.16.17.10     kubernetes-master</span><br><span class="line">172.16.17.11     kubernetes-node-1</span><br><span class="line">172.16.17.12     kubernetes-node-2</span><br></pre></td></tr></table></figure></li><li><p>将桥接的IPv4流量传递到iptables的链</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cat &gt; &#x2F;etc&#x2F;sysctl.d&#x2F;k8s.conf &lt;&lt; EOF</span><br><span class="line">net.bridge.bridge-nf-call-ip6tables &#x3D; 1</span><br><span class="line">net.bridge.bridge-nf-call-iptables &#x3D; 1</span><br><span class="line">EOF </span><br><span class="line">$ sysctl --system</span><br></pre></td></tr></table></figure></li><li><p>开启IP转发功能</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;1&quot; &gt; &#x2F;proc&#x2F;sys&#x2F;net&#x2F;ipv4&#x2F;ip_forward</span><br></pre></td></tr></table></figure></li><li><p>NTP时间服务同步</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum -y install ntpdate</span><br><span class="line">$ ntpdate -u ntp.api.bz</span><br></pre></td></tr></table></figure></li></ul><h3 id="3-开始安装"><a href="#3-开始安装" class="headerlink" title="3. 开始安装"></a>3. 开始安装</h3><p>在所有节点上安装Docker/kubeadm/kubelet</p><h4 id="3-1-安装Docker"><a href="#3-1-安装Docker" class="headerlink" title="3.1 安装Docker"></a>3.1 安装Docker</h4><ol><li>安装必要的一些系统工具</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y yum-utils device-mapper-persistent-data lvm2</span><br></pre></td></tr></table></figure><ol start="2"><li>添加软件源信息<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum-config-manager --add-repo https:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;docker-ce&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo</span><br></pre></td></tr></table></figure></li><li>更改仓库镜像地址<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i &#39;s+download.docker.com+mirrors.aliyun.com&#x2F;docker-ce+&#39; &#x2F;etc&#x2F;yum.repos.d&#x2F;docker-ce.repo</span><br></pre></td></tr></table></figure></li><li>更新并安装Docker-CE，这里我们安装19.03版本。其他安装Docker相关的选项请移步 <a href="https://developer.aliyun.com/mirror/docker-ce" target="_blank" rel="noopener">https://developer.aliyun.com/mirror/docker-ce</a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum makecache</span><br><span class="line">yum -y install docker-ce-19.03.14 docker-ce-cli-19.03.14 containerd.io</span><br></pre></td></tr></table></figure></li><li>开启Docker服务<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable docker</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure></li><li>查看Docker是否安装成功<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@kubernetes-master ~]# docker version</span><br><span class="line">Client: Docker Engine - Community</span><br><span class="line"> Version:           19.03.14</span><br><span class="line"> API version:       1.40</span><br><span class="line"> Go version:        go1.13.15</span><br><span class="line"> Git commit:        5eb3275d40</span><br><span class="line"> Built:             Tue Dec  1 19:20:42 2020</span><br><span class="line"> OS&#x2F;Arch:           linux&#x2F;amd64</span><br><span class="line"> Experimental:      false</span><br><span class="line"></span><br><span class="line">Server: Docker Engine - Community</span><br><span class="line"> Engine:</span><br><span class="line">  Version:          19.03.14</span><br><span class="line">  API version:      1.40 (minimum version 1.12)</span><br><span class="line">  Go version:       go1.13.15</span><br><span class="line">  Git commit:       5eb3275d40</span><br><span class="line">  Built:            Tue Dec  1 19:19:17 2020</span><br><span class="line">  OS&#x2F;Arch:          linux&#x2F;amd64</span><br><span class="line">  Experimental:     false</span><br><span class="line"> containerd:</span><br><span class="line">  Version:          1.4.3</span><br><span class="line">  GitCommit:        269548fa27e0089a8b8278fc4fc781d7f65a939b</span><br><span class="line"> runc:</span><br><span class="line">  Version:          1.0.0-rc92</span><br><span class="line">  GitCommit:        ff819c7e9184c13b7c2607fe6c30ae19403a7aff</span><br><span class="line"> docker-init:</span><br><span class="line">  Version:          0.18.0</span><br><span class="line">  GitCommit:        fec3683</span><br></pre></td></tr></table></figure></li></ol><h3 id="4-用kubeadm部署Master"><a href="#4-用kubeadm部署Master" class="headerlink" title="4. 用kubeadm部署Master"></a>4. 用kubeadm部署Master</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kubeadm init \</span><br><span class="line">--apiserver-advertise-address&#x3D;172.16.17.10 \</span><br><span class="line">--image-repository registry.aliyuncs.com&#x2F;google_containers \</span><br><span class="line">--kubernetes-version v1.20.2 \</span><br><span class="line">--service-cidr&#x3D;192.168.1.0&#x2F;24 \</span><br><span class="line">--pod-network-cidr&#x3D;192.168.200.0&#x2F;24</span><br></pre></td></tr></table></figure><p>apiserver-advertise-address参数: master组件监听的api地址，这里写masterIP地址即可或者多网卡选择另一个IP地址<br>kubernetes-version: 指定安装的版本</p><h3 id="5-加入Node"><a href="#5-加入Node" class="headerlink" title="5. 加入Node"></a>5. 加入Node</h3><h3 id="6-安装flannel"><a href="#6-安装flannel" class="headerlink" title="6. 安装flannel"></a>6. 安装flannel</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f https:&#x2F;&#x2F;gitee.com&#x2F;mirrors&#x2F;flannel&#x2F;raw&#x2F;master&#x2F;Documentation&#x2F;kube-flannel.yml</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;1-安装要求&quot;&gt;&lt;a href=&quot;#1-安装要求&quot; class=&quot;headerlink&quot; title=&quot;1. 安装要求&quot;&gt;&lt;/a&gt;1. 安装要求&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;系统版本：CentOS 7.x&lt;/li&gt;
+&lt;li&gt;硬件配置：内存2GB以上、CPU2核以上、</summary>
+      
+    
+    
+    
+    
+    <category term="Kubernetes" scheme="http://weiwenduo.github.io/tags/Kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux常用命令</title>
+    <link href="http://weiwenduo.github.io/2021/02/01/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+    <id>http://weiwenduo.github.io/2021/02/01/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</id>
+    <published>2021-02-01T06:05:52.000Z</published>
+    <updated>2021-02-01T06:06:39.990Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li>ifconfig</li></ol><ul><li>依赖包 net-tools</li><li>常用命令<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;ol&gt;
+&lt;li&gt;ifconfig&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;依赖包 net-tools&lt;/li&gt;
+&lt;li&gt;常用命令&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span cl</summary>
+      
+    
+    
+    
+    
+    <category term="Linux" scheme="http://weiwenduo.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux的QA</title>
+    <link href="http://weiwenduo.github.io/2021/02/01/Linux%E7%9A%84QA/"/>
+    <id>http://weiwenduo.github.io/2021/02/01/Linux%E7%9A%84QA/</id>
+    <published>2021-02-01T02:00:31.000Z</published>
+    <updated>2021-02-01T06:04:30.107Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li>host文件相关</li></ol><ul><li>hosts文件在/etc/hosts</li><li>修改完成后如何生效<ol><li>安装nscd<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install nscd</span><br></pre></td></tr></table></figure></li><li>清除DNS数据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;init.d&#x2F;nscd restart</span><br></pre></td></tr></table></figure></li><li>若无效，则清除DNS缓存<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;init.d&#x2F;networking restart</span><br></pre></td></tr></table></figure></li></ol></li></ul><ol start="2"><li>安装CentOS后访问网络报错”network is unreachable”</li></ol><ul><li>编辑<strong>/etc/sysconfig/network-scripts</strong>文件夹下的<strong>ifcfg-enxxx</strong>文件</li><li>将ONBOOT属性改为yes</li><li>重启网络<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service network restart</span><br></pre></td></tr></table></figure></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;ol&gt;
+&lt;li&gt;host文件相关&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;hosts文件在/etc/hosts&lt;/li&gt;
+&lt;li&gt;修改完成后如何生效&lt;ol&gt;
+&lt;li&gt;安装nscd&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td cla</summary>
+      
+    
+    
+    
+    
+    <category term="Linux" scheme="http://weiwenduo.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何获取泛型的Class对象</title>
+    <link href="http://weiwenduo.github.io/2021/01/27/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E6%B3%9B%E5%9E%8B%E7%9A%84Class%E7%B1%BB%E5%9E%8B/"/>
+    <id>http://weiwenduo.github.io/2021/01/27/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E6%B3%9B%E5%9E%8B%E7%9A%84Class%E7%B1%BB%E5%9E%8B/</id>
+    <published>2021-01-27T07:46:17.000Z</published>
+    <updated>2021-03-02T10:07:48.814Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-需求来源"><a href="#1-需求来源" class="headerlink" title="1. 需求来源"></a>1. 需求来源</h3><p>  我所做的项目中，使用了阿里云ONS作为消息中间件。在写Topic消费时，需要实现MessageListener的consume()方法，此方法中message参数的body成员变量是byte[]类型，因为项目约定使用json作为消息传递的序列化方式，故有想法通过模板方法，进行统一的byte[]到类对象的转换。在转换时遇到了问题，怎样获取到方法所在类上，泛型的实际类型。</p><h3 id="2-实现"><a href="#2-实现" class="headerlink" title="2. 实现"></a>2. 实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取泛型的类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Type <span class="title">getType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取泛型的类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line"><span class="function"><span class="keyword">private</span> Class&lt;T&gt; <span class="title">getTClass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (Class&lt;T&gt;)((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="3-细说"><a href="#3-细说" class="headerlink" title="3. 细说"></a>3. 细说</h3><ul><li><p>java.lang.Class#getGenericSuperclass()</p><p>[todo]</p></li><li><p>java.lang.reflect.ParameterizedType#getActualTypeArguments()</p><p>[todo]</p></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;1-需求来源&quot;&gt;&lt;a href=&quot;#1-需求来源&quot; class=&quot;headerlink&quot; title=&quot;1. 需求来源&quot;&gt;&lt;/a&gt;1. 需求来源&lt;/h3&gt;&lt;p&gt;  我所做的项目中，使用了阿里云ONS作为消息中间件。在写Topic消费时，需要实现MessageLis</summary>
+      
+    
+    
+    
+    <category term="Java" scheme="http://weiwenduo.github.io/categories/Java/"/>
+    
+    
+    <category term="Java" scheme="http://weiwenduo.github.io/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Spring Cloud Netflix Zuul - 默认Filter</title>
+    <link href="http://weiwenduo.github.io/2020/10/26/Spring%20Cloud%20Netflix%20Zuul%20-%20%E9%BB%98%E8%AE%A4Filter/"/>
+    <id>http://weiwenduo.github.io/2020/10/26/Spring%20Cloud%20Netflix%20Zuul%20-%20%E9%BB%98%E8%AE%A4Filter/</id>
+    <published>2020-10-26T14:32:48.000Z</published>
+    <updated>2021-03-02T10:04:23.391Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Spring-Cloud-Netflix-Zuul"><a href="#Spring-Cloud-Netflix-Zuul" class="headerlink" title="Spring Cloud Netflix Zuul"></a>Spring Cloud Netflix Zuul</h2><h3 id="1-FilterConstants"><a href="#1-FilterConstants" class="headerlink" title="1. FilterConstants"></a>1. FilterConstants</h3><p>在<strong>org.springframework.cloud.netflix.zuul.filters.support.FilterConstants</strong>中，可以看到Zuul定义了一些默认Filter的执行顺序。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterConstants</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//省略...</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// ORDER constants -----------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Filter Order for &#123;<span class="doctag">@link</span> DebugFilter#filterOrder()&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEBUG_FILTER_ORDER = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Filter Order for</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> org.springframework.cloud.netflix.zuul.filters.pre.FormBodyWrapperFilter#filterOrder()&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> FORM_BODY_WRAPPER_FILTER_ORDER = -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Filter Order for</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> org.springframework.cloud.netflix.zuul.filters.pre.PreDecorationFilter&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> PRE_DECORATION_FILTER_ORDER = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Filter Order for</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> org.springframework.cloud.netflix.zuul.filters.route.RibbonRoutingFilter#filterOrder()&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> RIBBON_ROUTING_FILTER_ORDER = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Filter Order for</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> org.springframework.cloud.netflix.zuul.filters.post.SendErrorFilter#filterOrder()&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SEND_ERROR_FILTER_ORDER = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Filter Order for &#123;<span class="doctag">@link</span> SendForwardFilter#filterOrder()&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SEND_FORWARD_FILTER_ORDER = <span class="number">500</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Filter Order for</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> org.springframework.cloud.netflix.zuul.filters.post.SendResponseFilter#filterOrder()&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SEND_RESPONSE_FILTER_ORDER = <span class="number">1000</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Filter Order for</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> org.springframework.cloud.netflix.zuul.filters.route.SimpleHostRoutingFilter#filterOrder()&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SIMPLE_HOST_ROUTING_FILTER_ORDER = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * filter order for &#123;<span class="doctag">@link</span> Servlet30WrapperFilter#filterOrder()&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SERVLET_30_WRAPPER_FILTER_ORDER = -<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * filter order for</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> org.springframework.cloud.netflix.zuul.filters.pre.ServletDetectionFilter#filterOrder()&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SERVLET_DETECTION_FILTER_ORDER = -<span class="number">3</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//省略...</span></span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="2-默认Filter"><a href="#2-默认Filter" class="headerlink" title="2. 默认Filter"></a>2. 默认Filter</h3><h4 id="pre"><a href="#pre" class="headerlink" title="pre"></a>pre</h4><ul><li>ServletDetectionFilter (-3)：检测请求是通过DispatcherServlet还是ZuulServlet 运行的.</li><li>Servlet30WrapperFilter(-2)：对Servlet3.0环境的包装器过滤</li><li>FormBodyWrapperFilter(-1)：为下游服务解析表单数据并重新编码.仅在content-type为application/x-www-form-urlencoded或者multipart/form-data时生效.</li><li>DebugFilter(1)：如果设置了“debug”请求参数，则将{@link RequestContext}调试属性设置为true</li><li>PreDecorationFilter(5)：根据提供的{@link RouteLocator}确定路由的位置和方式。 *还为下游请求设置各种代理相关的标头</li></ul><h4 id="route"><a href="#route" class="headerlink" title="route"></a>route</h4><ul><li>RibbonRoutingFilter(10)：使用Ribbon，Hystrix和可插入的http客户端发送请求。</li><li>SimpleHostRoutingFilter(100)：通过过apache http clients向预定的url发送请求.</li><li>SendForwardFilter(500)：使用requestDispatcher 转发请求.</li></ul><h4 id="post"><a href="#post" class="headerlink" title="post"></a>post</h4><ul><li>SendResponseFilter(1000)：将代理请求的响应写入当前响应。</li></ul><h4 id="error"><a href="#error" class="headerlink" title="error"></a>error</h4><ul><li>SendErrorFilter(0)：默认情况下转发到/error路径,如果RequestContext.getThrowable()不是空。</li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;Spring-Cloud-Netflix-Zuul&quot;&gt;&lt;a href=&quot;#Spring-Cloud-Netflix-Zuul&quot; class=&quot;headerlink&quot; title=&quot;Spring Cloud Netflix Zuul&quot;&gt;&lt;/a&gt;Spring Clou</summary>
+      
+    
+    
+    
+    <category term="Spring Cloud" scheme="http://weiwenduo.github.io/categories/Spring-Cloud/"/>
+    
+    
+    <category term="Spring Cloud" scheme="http://weiwenduo.github.io/tags/Spring-Cloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Spring Cloud Netflix Zuul - Filter的四个阶段</title>
+    <link href="http://weiwenduo.github.io/2020/10/26/Spring%20Cloud%20Netflix%20Zuul%20-%20Filter%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5/"/>
+    <id>http://weiwenduo.github.io/2020/10/26/Spring%20Cloud%20Netflix%20Zuul%20-%20Filter%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5/</id>
+    <published>2020-10-26T14:20:09.000Z</published>
+    <updated>2021-03-02T10:04:45.600Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Spring-Cloud-Netflix-Zuul"><a href="#Spring-Cloud-Netflix-Zuul" class="headerlink" title="Spring Cloud Netflix Zuul"></a>Spring Cloud Netflix Zuul</h2><h3 id="1-FilterConstants"><a href="#1-FilterConstants" class="headerlink" title="1. FilterConstants"></a>1. FilterConstants</h3><p>在<strong>org.springframework.cloud.netflix.zuul.filters.support.FilterConstants</strong>中，可以看到Zuul定义了Filter的类型（Type）。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterConstants</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//省略...</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// Zuul Filter TYPE constants -----------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> ZuulFilter#filterType()&#125; error type.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String ERROR_TYPE = <span class="string">"error"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> ZuulFilter#filterType()&#125; post type.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String POST_TYPE = <span class="string">"post"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> ZuulFilter#filterType()&#125; pre type.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String PRE_TYPE = <span class="string">"pre"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> ZuulFilter#filterType()&#125; route type.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String ROUTE_TYPE = <span class="string">"route"</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//省略...</span></span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="2-ZuulServlet"><a href="#2-ZuulServlet" class="headerlink" title="2. ZuulServlet"></a>2. ZuulServlet</h3><p>在<strong>com.netflix.zuul.http.ZuulServlet</strong>中，可以看到不同类型的Filter的执行顺序。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ZuulServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//省略...</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(javax.servlet.ServletRequest servletRequest, javax.servlet.ServletResponse servletResponse)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            init((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Marks this request as having passed through the "Zuul engine", as opposed to servlets</span></span><br><span class="line">            <span class="comment">// explicitly bound in web.xml, for which requests will not have the same data attached</span></span><br><span class="line">            RequestContext context = RequestContext.getCurrentContext();</span><br><span class="line">            context.setZuulEngineRan();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                preRoute();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ZuulException e) &#123;</span><br><span class="line">                error(e);</span><br><span class="line">                postRoute();</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                route();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ZuulException e) &#123;</span><br><span class="line">                error(e);</span><br><span class="line">                postRoute();</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                postRoute();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ZuulException e) &#123;</span><br><span class="line">                error(e);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">            error(<span class="keyword">new</span> ZuulException(e, <span class="number">500</span>, <span class="string">"UNHANDLED_EXCEPTION_"</span> + e.getClass().getName()));</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            RequestContext.getCurrentContext().unset();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//省略...</span></span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;Spring-Cloud-Netflix-Zuul&quot;&gt;&lt;a href=&quot;#Spring-Cloud-Netflix-Zuul&quot; class=&quot;headerlink&quot; title=&quot;Spring Cloud Netflix Zuul&quot;&gt;&lt;/a&gt;Spring Clou</summary>
+      
+    
+    
+    
+    <category term="Spring Cloud" scheme="http://weiwenduo.github.io/categories/Spring-Cloud/"/>
+    
+    
+    <category term="Spring Cloud" scheme="http://weiwenduo.github.io/tags/Spring-Cloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用JMeter测试接口并发</title>
+    <link href="http://weiwenduo.github.io/2019/09/03/%E4%BD%BF%E7%94%A8JMeter%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3%E5%B9%B6%E5%8F%91/"/>
+    <id>http://weiwenduo.github.io/2019/09/03/%E4%BD%BF%E7%94%A8JMeter%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3%E5%B9%B6%E5%8F%91/</id>
+    <published>2019-09-03T09:13:56.000Z</published>
+    <updated>2021-03-02T10:54:52.326Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1. 准备工作"></a>1. 准备工作</h3><p>测试工具：Apache JMeter 5.1.1</p><h3 id="2-操作流程"><a href="#2-操作流程" class="headerlink" title="2. 操作流程"></a>2. 操作流程</h3><h4 id="2-1-创建线程组"><a href="#2-1-创建线程组" class="headerlink" title="2.1. 创建线程组"></a>2.1. 创建线程组</h4><img src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/T0cEiB.png" alt="T0cEiB" style="zoom: 20%;" /><p><img src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/5E4342FD-F1A4-4D3B-A441-320F4ED2DFDD.png" alt="5E4342FD-F1A4-4D3B-A441-320F4ED2DFDD"></p><ul><li>线程数：同时请求的数量</li><li>Ramp-Up时间：线程之间间隔的时间</li><li>循环次数：该线程组循环运行的次数</li></ul><h4 id="2-2-添加HTTP请求"><a href="#2-2-添加HTTP请求" class="headerlink" title="2.2. 添加HTTP请求"></a>2.2. 添加HTTP请求</h4><img src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/9E71A288-B9C8-4744-9A38-DEF4AA5866AA.png" alt="9E71A288-B9C8-4744-9A38-DEF4AA5866AA" style="zoom:40%;" /><p><img src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/5DFFB027-1824-4BF7-A6CA-5B1907EB457E.png" alt="5DFFB027-1824-4BF7-A6CA-5B1907EB457E"></p><h4 id="2-3-在『线程组』中添加『HTTP信息头管理器』"><a href="#2-3-在『线程组』中添加『HTTP信息头管理器』" class="headerlink" title="2.3. 在『线程组』中添加『HTTP信息头管理器』"></a>2.3. 在『线程组』中添加『HTTP信息头管理器』</h4><img src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/DB706B5D-C37E-44FA-920C-52653B61B0C2.png" alt="DB706B5D-C37E-44FA-920C-52653B61B0C2" style="zoom:40%;" /><p><img src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/E3554723-82BB-4070-8832-7B4B2BD7234C.png" alt="E3554723-82BB-4070-8832-7B4B2BD7234C"></p><h4 id="2-4-添加『用表格查看结果』"><a href="#2-4-添加『用表格查看结果』" class="headerlink" title="2.4. 添加『用表格查看结果』"></a>2.4. 添加『用表格查看结果』</h4><img src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/EF05095C-9F22-4F78-AB33-3CC6C31C81A8.png" alt="EF05095C-9F22-4F78-AB33-3CC6C31C81A8" style="zoom:44%;" /><h4 id="2-5-点击『启动』即可看到执行结果"><a href="#2-5-点击『启动』即可看到执行结果" class="headerlink" title="2.5. 点击『启动』即可看到执行结果"></a>2.5. 点击『启动』即可看到执行结果</h4><p><img src="https://cdn.jsdelivr.net/gh/weiwenduo/oss@master/uPic/2020/05/23/54F3FFC5-64FB-4A41-A5D6-CAC806B7EE3B.png" alt="54F3FFC5-64FB-4A41-A5D6-CAC806B7EE3B"></p><h3 id="3-查看测试结果"><a href="#3-查看测试结果" class="headerlink" title="3. 查看测试结果"></a>3. 查看测试结果</h3><p>Sample：每个请求的序号</p><p>Start Time：每个请求开始时间</p><p>Thread Name：每个线程的名称</p><p>Label：Http请求名称</p><p>Sample Time：每个请求所花时间，单位毫秒</p><p>Status：请求状态，如果为勾则表示成功，如果为叉表示失败。</p><p>Bytes：请求的字节数</p><p>在下面还有几个参数：</p><p>样本数目：也就是上面所说的请求个数，成功的情况下等于你设定的并发数目乘以循环次数</p><p>平均：每个线程请求的平均时间</p><p>最新样本：表示服务器响应最后一个请求的时间</p><p>偏离：服务器响应时间变化、离散程度测量值的大小。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;1-准备工作&quot;&gt;&lt;a href=&quot;#1-准备工作&quot; class=&quot;headerlink&quot; title=&quot;1. 准备工作&quot;&gt;&lt;/a&gt;1. 准备工作&lt;/h3&gt;&lt;p&gt;测试工具：Apache JMeter 5.1.1&lt;/p&gt;
+&lt;h3 id=&quot;2-操作流程&quot;&gt;&lt;a href</summary>
+      
+    
+    
+    
+    <category term="测试" scheme="http://weiwenduo.github.io/categories/%E6%B5%8B%E8%AF%95/"/>
+    
+    
+    <category term="JMeter" scheme="http://weiwenduo.github.io/tags/JMeter/"/>
+    
+    <category term="测试" scheme="http://weiwenduo.github.io/tags/%E6%B5%8B%E8%AF%95/"/>
+    
+  </entry>
+  
+</feed>
