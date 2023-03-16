@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <meta name="author" content="WENDUO">
+
+
+
+
+
+<title>ElasticSearch学习笔记1-介绍及Docker部署 | WENDUO&#39;S BLOG</title>
+
+
+
+<link rel="icon" href="/images/logo.svg">
+
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/nprogress/nprogress.css">
+
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.min.css">
+
+
+<link rel="stylesheet" href="/lib/tocbot/tocbot.min.css">
+
+
+
+<script src="/lib/jquery.min.js"></script>
+
+
+<script src="/lib/iconify-icon.min.js"></script>
+
+
+<script src="https://cdn.tailwindcss.com?plugins=typography,line-clamp"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+  }
+</script>
+
+
+<script src="/lib/nprogress/nprogress.js"></script>
+
+<script>
+  $(document).ready(() => {
+    NProgress.configure({
+      showSpinner: false,
+    });
+    NProgress.start();
+    $("#nprogress .bar").css({
+      background: "#de7441",
+    });
+    $("#nprogress .peg").css({
+      "box-shadow": "0 0 2px #de7441, 0 0 4px #de7441",
+    });
+    $("#nprogress .spinner-icon").css({
+      "border-top-color": "#de7441",
+      "border-left-color": "#de7441",
+    });
+    setTimeout(function () {
+      NProgress.done();
+      $(".fade").removeClass("out");
+    }, 800);
+  });
+</script>
+
+<script>
+  (function () {
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+    if (setting === "dark" || (prefersDark && setting !== "light"))
+      document.documentElement.classList.toggle("dark", true);
+  })();
+  window.onload = function () {
+    // init iconify icon
+    const isDark = document.documentElement.classList.contains("dark");
+    if (isDark) {
+      $("#toggle-dark").attr("icon", "ri:moon-line");
+    } else {
+      $("#toggle-dark").attr("icon", "ri:sun-line");
+    }
+
+    const toggleDark = () => {
+      console.log("toggle dark");
+      const darkMode = document.documentElement.classList.toggle("dark");
+      localStorage.setItem("hexo-color-scheme", darkMode ? "dark" : "light");
+      $("#toggle-dark").attr("icon", darkMode ? "ri:moon-line" : "ri:sun-line");
+    };
+
+    $("#toggle-dark").click(toggleDark);
+  };
+</script>
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body class="font-sans bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-200">
+  <header class="fixed w-full px-5 py-1 z-10 backdrop-blur-xl backdrop-saturate-150 border-b border-black/5">
+  <div class="max-auto">
+    <nav class="flex items-center text-base">
+      <a href="/" class="group">
+        <h2 class="font-medium tracking-tighterp text-l p-2">
+          <img class="w-5 mr-2 inline-block transition-transform group-hover:rotate-[30deg]" src="/images/logo.svg" alt="WENDUO'S BLOG" />
+          WENDUO&#39;S BLOG
+        </h2>
+      </a>
+      <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
+        项目
+      </div>
+      <div class="flex-1"></div>
+      <div class="flex items-center gap-3">
+        
+          <a class="hidden sm:flex" href="/archives">Posts</a>
+        
+        
+          
+            <a class="w-5 h-5 hidden sm:flex" title="Github" target="_blank" rel="noopener" href="https://github.com/weiwenduo">
+              <iconify-icon width="20" icon="ri:github-line"></iconify-icon>
+            </a>
+          
+        
+        <a class="w-5 h-5" title="toggle theme">
+          <iconify-icon width="20" icon="ri:sun-line" id="toggle-dark"></iconify-icon>
+        </a>
+      </div>
+      <div class="flex items-center justify-center gap-3 ml-3 sm:hidden">
+        <span class="w-5 h-5" aria-hidden="true" role="img" id="open-menu">
+          <iconify-icon width="20" icon="carbon:menu" ></iconify-icon>
+        </span>
+        <span class="w-5 h-5 hidden" aria-hidden="true" role="img" id="close-menu">
+          <iconify-icon  width="20" icon="carbon:close" ></iconify-icon>
+        </span>
+      </div>
+    </nav>
+  </div>
+</header>
+<div id="menu-panel" class="h-0 overflow-hidden sm:hidden fixed left-0 right-0 top-12 bottom-0 z-10">
+  <div id="menu-content" class="relative z-20 bg-white/80 px-6 sm:px-8 py-2 backdrop-blur-xl -translate-y-full transition-transform duration-300">
+    <ul class="nav flex flex-col sm:flex-row text-sm font-medium">
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/archives" class="flex h-12 sm:h-auto items-center">Posts</a>
+        </li>
+      
+    </ul>
+  </div>
+  <div class="mask bg-black/20 absolute inset-0"></div>
+</div>
+
+  <main class="p-12">
+    <!-- toc -->
+
+  <!-- tocbot -->
+<nav class="post-toc toc text-sm w-48 relative top-32 right-0 opacity-70 hidden lg:block" style="position: fixed !important;"></nav>
+
+
+<section class="px-6 max-w-prose mx-auto md:px-0">
+  <!-- header -->
+  <header class="overflow-hidden pt-6 pb-6 md:pt-12">
+    <div class="pt-4 md:pt-6">
+      <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
+        ElasticSearch学习笔记1-介绍及Docker部署
+      </h1>
+      <p class="mb-6">
+        
+      </p>
+      <div>
+        <section class="flex items-center gap-3 text-sm">
+          <time>2023-03-15 19:47:26</time>
+          <span class="text-gray-400">·</span>
+          <span>4 min</span>
+          <span class="text-gray-400">·</span>
+          <span>1.2k words</span>
+        </section>
+      </div>
+    </div>
+  </header>
+  <!-- content -->
+  <article class="post-content mt-10 prose dark:prose-invert post-content">
+    <h3 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1. 介绍"></a>1. 介绍</h3><p>Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 <a target="_blank" rel="noopener" href="https://lucene.apache.org/core/">Apache Lucene™</a> 基础之上。 Lucene 可以说是当下最先进、高性能、全功能的搜索引擎库—无论是开源还是私有。</p>
+<p>但是 Lucene 仅仅只是一个库。为了充分发挥其功能，你需要使用 Java 并将 Lucene 直接集成到应用程序中。 更糟糕的是，您可能需要获得信息检索学位才能了解其工作原理。Lucene <em>非常</em> 复杂。</p>
+<p>Elasticsearch 也是使用 Java 编写的，它的内部使用 Lucene 做索引与搜索，但是它的目的是使全文检索变得简单， 通过隐藏 Lucene 的复杂性，取而代之的提供一套简单一致的 RESTful API。</p>
+<p>然而，Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：</p>
+<ul>
+<li>一个分布式的实时文档存储，<em>每个字段</em> 可以被索引与搜索</li>
+<li>一个分布式实时分析搜索引擎</li>
+<li>能胜任上百个服务节点的扩展，并支持 PB 级别的结构化或者非结构化数据</li>
+</ul>
+<p>Elasticsearch 将所有的功能打包成一个单独的服务，这样你可以通过程序与它提供的简单的 RESTful API 进行通信， 可以使用自己喜欢的编程语言充当 web 客户端，甚至可以使用命令行（去充当这个客户端）。</p>
+<p>就 Elasticsearch 而言，起步很简单。对于初学者来说，它预设了一些适当的默认值，并隐藏了复杂的搜索理论知识。 它 <em>开箱即用</em> 。只需最少的理解，你很快就能具有生产力。</p>
+<h3 id="2-在Docker中部署一个ElasticSearch单节点实例"><a href="#2-在Docker中部署一个ElasticSearch单节点实例" class="headerlink" title="2. 在Docker中部署一个ElasticSearch单节点实例"></a>2. 在Docker中部署一个ElasticSearch单节点实例</h3><p>接下来，我们需要在Docker中启动一个ElasticSearch单节点实例。方便我们学习。</p>
+<h4 id="2-1-拉取镜像"><a href="#2-1-拉取镜像" class="headerlink" title="2.1 拉取镜像"></a>2.1 拉取镜像</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">根据不同架构选择版本</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">amd64</span></span><br><span class="line">docker pull amd64/elasticsearch:7.11.2</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">arm64</span></span><br><span class="line">docker pull arm64v8/elasticsearch:7.11.2</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-编写docker-compose-yml"><a href="#2-2-编写docker-compose-yml" class="headerlink" title="2.2 编写docker-compose.yml"></a>2.2 编写docker-compose.yml</h4><ul>
+<li>创建一个工作目录，用来存放持久化数据和docker-compose.yml文件。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/Docker/elasticsearch</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建docker-compose.yml</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/Docker/elasticsearch/docker-compose.yml</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>输入以下配置</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.8&quot;</span></span><br><span class="line"><span class="attr">services:</span> </span><br><span class="line">  <span class="attr">elasticsearch:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">arm64v8/elasticsearch:7.11.2</span>       <span class="comment">#指定使用的镜像</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">elasticsearch</span>             <span class="comment">#指定容器名称</span></span><br><span class="line">    <span class="attr">ports:</span>                                    <span class="comment">#映射端口</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;9200:9200&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;9300:9300&quot;</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;discovery.type=single-node&quot;</span>          <span class="comment">#设置单节点模式</span></span><br><span class="line">    <span class="attr">volumes:</span> </span><br><span class="line">      <span class="bullet">-</span> <span class="string">./data:/usr/share/elasticsearch/data</span>  <span class="comment">#挂载数据文件夹到宿主机</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-3-运行"><a href="#2-3-运行" class="headerlink" title="2.3 运行"></a>2.3 运行</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-4-查看启动正常"><a href="#2-4-查看启动正常" class="headerlink" title="2.4 查看启动正常"></a>2.4 查看启动正常</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">curl http://localhost:9200</span></span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot; : &quot;d9fb9c159de4&quot;,</span><br><span class="line">  &quot;cluster_name&quot; : &quot;docker-cluster&quot;,</span><br><span class="line">  &quot;cluster_uuid&quot; : &quot;v8cYuynUT8iHZBQH-IjY9Q&quot;,</span><br><span class="line">  &quot;version&quot; : &#123;</span><br><span class="line">    &quot;number&quot; : &quot;7.11.2&quot;,</span><br><span class="line">    &quot;build_flavor&quot; : &quot;default&quot;,</span><br><span class="line">    &quot;build_type&quot; : &quot;docker&quot;,</span><br><span class="line">    &quot;build_hash&quot; : &quot;3e5a16cfec50876d20ea77b075070932c6464c7d&quot;,</span><br><span class="line">    &quot;build_date&quot; : &quot;2021-03-06T05:54:38.141101Z&quot;,</span><br><span class="line">    &quot;build_snapshot&quot; : false,</span><br><span class="line">    &quot;lucene_version&quot; : &quot;8.7.0&quot;,</span><br><span class="line">    &quot;minimum_wire_compatibility_version&quot; : &quot;6.8.0&quot;,</span><br><span class="line">    &quot;minimum_index_compatibility_version&quot; : &quot;6.0.0-beta1&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;tagline&quot; : &quot;You Know, for Search&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-面向文档"><a href="#3-面向文档" class="headerlink" title="3. 面向文档"></a>3. 面向文档</h3><p>在应用程序中对象很少只是一个简单的键和值的列表。通常，它们拥有更复杂的数据结构，可能包括日期、地理信息、其他对象或者数组等。</p>
+<p>也许有一天你想把这些对象存储在数据库中。使用关系型数据库的行和列存储，这相当于是把一个表现力丰富的对象塞到一个非常大的电子表格中：为了适应表结构，你必须设法将这个对象扁平化—通常一个字段对应一列—而且每次查询时又需要将其重新构造为对象。</p>
+<p>Elasticsearch 是 <strong>面向文档</strong> 的，意味着它存储整个对象或 <strong>文档</strong>。Elasticsearch 不仅存储文档，而且 <strong>索引</strong> 每个文档的内容，使之可以被检索。在 Elasticsearch 中，我们对文档进行索引、检索、排序和过滤—而不是对行列数据。这是一种完全不同的思考数据的方式，也是 Elasticsearch 能支持复杂全文检索的原因。</p>
+<p>Elasticsearch 使用 JavaScript Object Notation（或者 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Json"><em>JSON</em></a>）作为文档的序列化格式。JSON 序列化为大多数编程语言所支持，并且已经成为 NoSQL 领域的标准格式。 它简单、简洁、易于阅读。</p>
+<p>下面这个 JSON 文档代表了一个 user 对象：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;email&quot;</span>:      <span class="string">&quot;john@smith.com&quot;</span>,</span><br><span class="line">    <span class="string">&quot;first_name&quot;</span>: <span class="string">&quot;John&quot;</span>,</span><br><span class="line">    <span class="string">&quot;last_name&quot;</span>:  <span class="string">&quot;Smith&quot;</span>,</span><br><span class="line">    <span class="string">&quot;info&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;bio&quot;</span>: <span class="string">&quot;Eco-warrior and defender of the weak&quot;</span>,</span><br><span class="line">        <span class="string">&quot;age&quot;</span>: <span class="number">25</span>,</span><br><span class="line">        <span class="string">&quot;interests&quot;</span>: [ <span class="string">&quot;dolphins&quot;</span>, <span class="string">&quot;whales&quot;</span> ]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;join_date&quot;</span>: <span class="string">&quot;2014/05/01&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>虽然原始的 <code>user</code> 对象很复杂，但这个对象的结构和含义在 JSON 版本中都得到了体现和保留。在 Elasticsearch 中将对象转化为 JSON 后构建索引要比在一个扁平的表结构中要简单的多。</p>
+
+  </article>
+  <!-- tag -->
+  <div class="mt-12 pt-6 border-t border-gray-200">
+    
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/ElasticSearch/">ElasticSearch</a>
+        </span>
+      
+    
+  </div>
+  <!-- prev and next -->
+  <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
+    <div>
+      
+        <a href="/2021/03/26/ElasticSearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
+          ElasticSearch学习笔记2-基本使用
+        </a>
+      
+    </div>
+    <div>
+      
+        <a href="/2021/03/19/CRM%E6%A6%82%E5%BF%B5-%E5%85%AC%E6%B5%B7/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          CRM概念-公海
+          <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
+        </a>
+      
+    </div>
+  </div>
+  <!-- comment -->
+  <div class="article-comments mt-12">
+    
+
+  </div>
+</section>
+
+  </main>
+  <footer class="flex flex-col h-40 items-center justify-center text-gray-400 text-sm">
+  <!-- busuanzi -->
+  
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- Busuanzi Analytics -->
+<div class="flex items-center gap-2">
+  <span>Visitor Count</span>
+  <span id="busuanzi_value_site_uv"></span>
+  <span>Totalview</span>
+  <span id="busuanzi_value_site_pv"></span>
+</div>
+<!-- End Busuanzi Analytics -->
+
+
+  <!-- copyright -->
+  <div class="flex items-center gap-2">
+    <span>© 2022</span>
+    <iconify-icon width="18" icon="emojione-monotone:maple-leaf" ></iconify-icon>
+    <a href="https://github.com/xbmlz" target="_blank" rel="noopener noreferrer">xbmlz</a>
+  </div>
+  <!-- powered by -->
+  <div class="flex items-center gap-2">
+    <span>Powered by</span>
+    <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer">Hexo</a>
+    <span>&</span>
+    <a href="https://github.com/xbmlz/hexo-theme-maple" target="_blank" rel="noopener noreferrer">Maple</a>
+  </div>
+
+</footer>
+
+  <iconify-icon class="fixed right-4 bottom-10 z-100 opacity-0" width="24" icon="ion:arrow-up-c" id="go-top"></iconify-icon>
+  
+<script src="/lib/clipboard.min.js"></script>
+
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+<script src="/lib/fancybox/fancybox.umd.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+    $('.post-content').each(function(i){
+      $(this).find('img').each(function(){
+        if ($(this).parent().hasClass('fancybox') || $(this).parent().is('a')) return;
+        var alt = this.alt;
+        if (alt) $(this).after('<span class="fancybox-alt">' + alt + '</span>');
+        $(this).wrap('<a class="fancybox-img" href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
+      });
+      $(this).find('.fancybox').each(function(){
+        $(this).attr('rel', 'article' + i);
+      });
+    });
+
+    Fancybox.bind('[data-fancybox="gallery"]', {
+        // options
+    })
+  })
+</script>
+
+<!-- tocbot begin -->
+
+<script src="/lib/tocbot/tocbot.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+      tocbot.init({
+        // Where to render the table of contents.
+        tocSelector: '.post-toc',
+        // Where to grab the headings to build the table of contents.
+        contentSelector: '.post-content',
+        // Which headings to grab inside of the contentSelector element.
+        headingSelector: 'h1, h2, h3',
+        // For headings inside relative or absolute positioned containers within content.
+        hasInnerContainers: true,
+    });
+  })
+</script>
+<!-- tocbot end -->
+
+
+</body>
+
+</html>

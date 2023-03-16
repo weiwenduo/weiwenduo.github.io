@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <meta name="author" content="WENDUO">
+
+
+
+
+
+<title>MySQL中的utf8、utf8mb4有什么区别 | WENDUO&#39;S BLOG</title>
+
+
+
+<link rel="icon" href="/images/logo.svg">
+
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/nprogress/nprogress.css">
+
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.min.css">
+
+
+<link rel="stylesheet" href="/lib/tocbot/tocbot.min.css">
+
+
+
+<script src="/lib/jquery.min.js"></script>
+
+
+<script src="/lib/iconify-icon.min.js"></script>
+
+
+<script src="https://cdn.tailwindcss.com?plugins=typography,line-clamp"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+  }
+</script>
+
+
+<script src="/lib/nprogress/nprogress.js"></script>
+
+<script>
+  $(document).ready(() => {
+    NProgress.configure({
+      showSpinner: false,
+    });
+    NProgress.start();
+    $("#nprogress .bar").css({
+      background: "#de7441",
+    });
+    $("#nprogress .peg").css({
+      "box-shadow": "0 0 2px #de7441, 0 0 4px #de7441",
+    });
+    $("#nprogress .spinner-icon").css({
+      "border-top-color": "#de7441",
+      "border-left-color": "#de7441",
+    });
+    setTimeout(function () {
+      NProgress.done();
+      $(".fade").removeClass("out");
+    }, 800);
+  });
+</script>
+
+<script>
+  (function () {
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+    if (setting === "dark" || (prefersDark && setting !== "light"))
+      document.documentElement.classList.toggle("dark", true);
+  })();
+  window.onload = function () {
+    // init iconify icon
+    const isDark = document.documentElement.classList.contains("dark");
+    if (isDark) {
+      $("#toggle-dark").attr("icon", "ri:moon-line");
+    } else {
+      $("#toggle-dark").attr("icon", "ri:sun-line");
+    }
+
+    const toggleDark = () => {
+      console.log("toggle dark");
+      const darkMode = document.documentElement.classList.toggle("dark");
+      localStorage.setItem("hexo-color-scheme", darkMode ? "dark" : "light");
+      $("#toggle-dark").attr("icon", darkMode ? "ri:moon-line" : "ri:sun-line");
+    };
+
+    $("#toggle-dark").click(toggleDark);
+  };
+</script>
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body class="font-sans bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-200">
+  <header class="fixed w-full px-5 py-1 z-10 backdrop-blur-xl backdrop-saturate-150 border-b border-black/5">
+  <div class="max-auto">
+    <nav class="flex items-center text-base">
+      <a href="/" class="group">
+        <h2 class="font-medium tracking-tighterp text-l p-2">
+          <img class="w-5 mr-2 inline-block transition-transform group-hover:rotate-[30deg]" src="/images/logo.svg" alt="WENDUO'S BLOG" />
+          WENDUO&#39;S BLOG
+        </h2>
+      </a>
+      <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
+        项目
+      </div>
+      <div class="flex-1"></div>
+      <div class="flex items-center gap-3">
+        
+          <a class="hidden sm:flex" href="/archives">Posts</a>
+        
+        
+          
+            <a class="w-5 h-5 hidden sm:flex" title="Github" target="_blank" rel="noopener" href="https://github.com/weiwenduo">
+              <iconify-icon width="20" icon="ri:github-line"></iconify-icon>
+            </a>
+          
+        
+        <a class="w-5 h-5" title="toggle theme">
+          <iconify-icon width="20" icon="ri:sun-line" id="toggle-dark"></iconify-icon>
+        </a>
+      </div>
+      <div class="flex items-center justify-center gap-3 ml-3 sm:hidden">
+        <span class="w-5 h-5" aria-hidden="true" role="img" id="open-menu">
+          <iconify-icon width="20" icon="carbon:menu" ></iconify-icon>
+        </span>
+        <span class="w-5 h-5 hidden" aria-hidden="true" role="img" id="close-menu">
+          <iconify-icon  width="20" icon="carbon:close" ></iconify-icon>
+        </span>
+      </div>
+    </nav>
+  </div>
+</header>
+<div id="menu-panel" class="h-0 overflow-hidden sm:hidden fixed left-0 right-0 top-12 bottom-0 z-10">
+  <div id="menu-content" class="relative z-20 bg-white/80 px-6 sm:px-8 py-2 backdrop-blur-xl -translate-y-full transition-transform duration-300">
+    <ul class="nav flex flex-col sm:flex-row text-sm font-medium">
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/archives" class="flex h-12 sm:h-auto items-center">Posts</a>
+        </li>
+      
+    </ul>
+  </div>
+  <div class="mask bg-black/20 absolute inset-0"></div>
+</div>
+
+  <main class="p-12">
+    <!-- toc -->
+
+  <!-- tocbot -->
+<nav class="post-toc toc text-sm w-48 relative top-32 right-0 opacity-70 hidden lg:block" style="position: fixed !important;"></nav>
+
+
+<section class="px-6 max-w-prose mx-auto md:px-0">
+  <!-- header -->
+  <header class="overflow-hidden pt-6 pb-6 md:pt-12">
+    <div class="pt-4 md:pt-6">
+      <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
+        MySQL中的utf8、utf8mb4有什么区别
+      </h1>
+      <p class="mb-6">
+        
+      </p>
+      <div>
+        <section class="flex items-center gap-3 text-sm">
+          <time>2023-03-15 19:47:26</time>
+          <span class="text-gray-400">·</span>
+          <span>2 min</span>
+          <span class="text-gray-400">·</span>
+          <span>811 words</span>
+        </section>
+      </div>
+    </div>
+  </header>
+  <!-- content -->
+  <article class="post-content mt-10 prose dark:prose-invert post-content">
+    <h3 id="1-背景"><a href="#1-背景" class="headerlink" title="1. 背景"></a>1. 背景</h3><p>在创建MySQL数据库时，需要指定数据库的字符集。MySQL支持的字符集非常多，在MySQL5.7中，默认字符集是latin1（不常用），在MySQL8.0中，默认字符集是utf8mb4。常用的还有一个utf8。那么这些字符集在MySQL中有什么区别呢？它们的应用场景分别是什么？</p>
+<h3 id="2-Unicode"><a href="#2-Unicode" class="headerlink" title="2. Unicode"></a>2. Unicode</h3><p>说起字符集，肯定要提起Unicode编码。这是一种全球通用的字符编码。1990年开始研发，1994年正式发布1.0版本，2020年已经更新到13.0版本。</p>
+<p>Unicode统一码，也叫万国码、单一码（Unicode），是计算机科学领域里的一项业界标准，包括字符集、编码方案等。Unicode 是为了解决传统的字符编码方案的局限而产生的，它为每种语言中的每个字符设定了统一并且唯一的二进制编码，以满足跨语言、跨平台进行文本转换、处理的要求。</p>
+<p>Unicode只是一组字符设定或者说是从数字和字符之间的逻辑映射的概念编码，但是它并没有指定代码点如何在计算机上存储。UCS4、UTF-8、UTF-16（UTF后的数字代表编码的最小单位，如UTF-8表示最小单位1字节（&#x3D;8 bits）,所以它可以使用1、2、3字节等进行编码，UTF-16表示最小单位2字节，所以它可以使用2、4字节进行编码）都是Unicode的编码方案。其中UTF-8因可以兼容ASCII而被广泛使用。</p>
+<h3 id="3-MySQL中的utf8和utf8mb4"><a href="#3-MySQL中的utf8和utf8mb4" class="headerlink" title="3. MySQL中的utf8和utf8mb4"></a>3. MySQL中的utf8和utf8mb4</h3><p>明白了Unicode的基本设定后，MySQL中的utf8和utf8mb4就好理解了。</p>
+<p>MySQL中<strong>utf8</strong>是utf8mb3的别称，它只支持最长3个字节UTF-8字符，即Unicode中的<strong>基本多文平面</strong>。在MySQL.5.5.3版本之后，新增了<strong>utf8mb4</strong>编码，它支持最长4个字节的UTF-8字符。mb的意思是most bytes，即最大字节数。</p>
+<p>那为什么要出一个新的<strong>utf8mb4</strong>呢？</p>
+<p>因为不够用了。<strong>utf8</strong>对于超过3个字节的字符是不能正常保存的，现在常见的emoji表情，和一些生僻汉字，都是占用4个字节。所以在在创建数据库时，编码应选择使用utf8mb4。由于utf8mb4是utf8的超集，所以几乎不用改动，可以从utf8平滑升级。</p>
+<h3 id="4-排序规则"><a href="#4-排序规则" class="headerlink" title="4. 排序规则"></a>4. 排序规则</h3><p>utf8mb4最常用的两个排序规则是utf8mb4_unicode_ci、utf8mb4_general_ci。还有不常用的utf8mb4_bin、utf8mb4_0900_ci等。</p>
+<h5 id="4-1-后缀"><a href="#4-1-后缀" class="headerlink" title="4.1 后缀"></a>4.1 后缀</h5><p>其中排序规则后缀有着不同的意义：</p>
+<p><strong>ci</strong>代表case insensitive，意思是大小写不敏感，a与A会在字符判断中当做是一样的。</p>
+<p><strong>bin</strong>代表二进制，a与A是会区别对待的。</p>
+<p>举例说明，在下面的语句中：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;JACK&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>在utf8mb4_bin中，是匹配不到jack的。</p>
+<p>在utf8mb4_general_ci中，是可以匹配到jack的。</p>
+<h5 id="4-2-general和unicode"><a href="#4-2-general和unicode" class="headerlink" title="4.2 general和unicode"></a>4.2 general和unicode</h5><p><strong>utf8mb4_unicode_ci</strong>，支持Unicode校对规则算法（部分字符），并且支持扩展，速度慢。<strong>扩展</strong>即把一个字母看作与其他字母组合相等，例如在德语和一些其它语言中『ß』等于『ss』。</p>
+<p><strong>utf8mb4_general_ci</strong>，不支持扩展，速度快。</p>
+<p>对于中英文来说，它们没有很大的区别。</p>
+
+  </article>
+  <!-- tag -->
+  <div class="mt-12 pt-6 border-t border-gray-200">
+    
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/MySQL/">MySQL</a>
+        </span>
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+        </span>
+      
+    
+  </div>
+  <!-- prev and next -->
+  <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
+    <div>
+      
+        <a href="/2021/12/16/%E8%AE%B0%E5%BD%95%EF%BC%9A%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AADDNS%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
+          记录：自己实现一个DDNS客户端
+        </a>
+      
+    </div>
+    <div>
+      
+        <a href="/2021/05/24/MySQL%E4%BC%98%E5%8C%96%E4%B9%8B%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          MySQL优化之前缀索引
+          <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
+        </a>
+      
+    </div>
+  </div>
+  <!-- comment -->
+  <div class="article-comments mt-12">
+    
+
+  </div>
+</section>
+
+  </main>
+  <footer class="flex flex-col h-40 items-center justify-center text-gray-400 text-sm">
+  <!-- busuanzi -->
+  
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- Busuanzi Analytics -->
+<div class="flex items-center gap-2">
+  <span>Visitor Count</span>
+  <span id="busuanzi_value_site_uv"></span>
+  <span>Totalview</span>
+  <span id="busuanzi_value_site_pv"></span>
+</div>
+<!-- End Busuanzi Analytics -->
+
+
+  <!-- copyright -->
+  <div class="flex items-center gap-2">
+    <span>© 2022</span>
+    <iconify-icon width="18" icon="emojione-monotone:maple-leaf" ></iconify-icon>
+    <a href="https://github.com/xbmlz" target="_blank" rel="noopener noreferrer">xbmlz</a>
+  </div>
+  <!-- powered by -->
+  <div class="flex items-center gap-2">
+    <span>Powered by</span>
+    <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer">Hexo</a>
+    <span>&</span>
+    <a href="https://github.com/xbmlz/hexo-theme-maple" target="_blank" rel="noopener noreferrer">Maple</a>
+  </div>
+
+</footer>
+
+  <iconify-icon class="fixed right-4 bottom-10 z-100 opacity-0" width="24" icon="ion:arrow-up-c" id="go-top"></iconify-icon>
+  
+<script src="/lib/clipboard.min.js"></script>
+
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+<script src="/lib/fancybox/fancybox.umd.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+    $('.post-content').each(function(i){
+      $(this).find('img').each(function(){
+        if ($(this).parent().hasClass('fancybox') || $(this).parent().is('a')) return;
+        var alt = this.alt;
+        if (alt) $(this).after('<span class="fancybox-alt">' + alt + '</span>');
+        $(this).wrap('<a class="fancybox-img" href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
+      });
+      $(this).find('.fancybox').each(function(){
+        $(this).attr('rel', 'article' + i);
+      });
+    });
+
+    Fancybox.bind('[data-fancybox="gallery"]', {
+        // options
+    })
+  })
+</script>
+
+<!-- tocbot begin -->
+
+<script src="/lib/tocbot/tocbot.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+      tocbot.init({
+        // Where to render the table of contents.
+        tocSelector: '.post-toc',
+        // Where to grab the headings to build the table of contents.
+        contentSelector: '.post-content',
+        // Which headings to grab inside of the contentSelector element.
+        headingSelector: 'h1, h2, h3',
+        // For headings inside relative or absolute positioned containers within content.
+        hasInnerContainers: true,
+    });
+  })
+</script>
+<!-- tocbot end -->
+
+
+</body>
+
+</html>

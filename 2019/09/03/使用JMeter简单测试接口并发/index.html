@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <meta name="author" content="WENDUO">
+
+
+
+
+
+<title>使用JMeter简单测试接口并发 | WENDUO&#39;S BLOG</title>
+
+
+
+<link rel="icon" href="/images/logo.svg">
+
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/nprogress/nprogress.css">
+
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.min.css">
+
+
+<link rel="stylesheet" href="/lib/tocbot/tocbot.min.css">
+
+
+
+<script src="/lib/jquery.min.js"></script>
+
+
+<script src="/lib/iconify-icon.min.js"></script>
+
+
+<script src="https://cdn.tailwindcss.com?plugins=typography,line-clamp"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+  }
+</script>
+
+
+<script src="/lib/nprogress/nprogress.js"></script>
+
+<script>
+  $(document).ready(() => {
+    NProgress.configure({
+      showSpinner: false,
+    });
+    NProgress.start();
+    $("#nprogress .bar").css({
+      background: "#de7441",
+    });
+    $("#nprogress .peg").css({
+      "box-shadow": "0 0 2px #de7441, 0 0 4px #de7441",
+    });
+    $("#nprogress .spinner-icon").css({
+      "border-top-color": "#de7441",
+      "border-left-color": "#de7441",
+    });
+    setTimeout(function () {
+      NProgress.done();
+      $(".fade").removeClass("out");
+    }, 800);
+  });
+</script>
+
+<script>
+  (function () {
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+    if (setting === "dark" || (prefersDark && setting !== "light"))
+      document.documentElement.classList.toggle("dark", true);
+  })();
+  window.onload = function () {
+    // init iconify icon
+    const isDark = document.documentElement.classList.contains("dark");
+    if (isDark) {
+      $("#toggle-dark").attr("icon", "ri:moon-line");
+    } else {
+      $("#toggle-dark").attr("icon", "ri:sun-line");
+    }
+
+    const toggleDark = () => {
+      console.log("toggle dark");
+      const darkMode = document.documentElement.classList.toggle("dark");
+      localStorage.setItem("hexo-color-scheme", darkMode ? "dark" : "light");
+      $("#toggle-dark").attr("icon", darkMode ? "ri:moon-line" : "ri:sun-line");
+    };
+
+    $("#toggle-dark").click(toggleDark);
+  };
+</script>
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body class="font-sans bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-200">
+  <header class="fixed w-full px-5 py-1 z-10 backdrop-blur-xl backdrop-saturate-150 border-b border-black/5">
+  <div class="max-auto">
+    <nav class="flex items-center text-base">
+      <a href="/" class="group">
+        <h2 class="font-medium tracking-tighterp text-l p-2">
+          <img class="w-5 mr-2 inline-block transition-transform group-hover:rotate-[30deg]" src="/images/logo.svg" alt="WENDUO'S BLOG" />
+          WENDUO&#39;S BLOG
+        </h2>
+      </a>
+      <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
+        项目
+      </div>
+      <div class="flex-1"></div>
+      <div class="flex items-center gap-3">
+        
+          <a class="hidden sm:flex" href="/archives">Posts</a>
+        
+        
+          
+            <a class="w-5 h-5 hidden sm:flex" title="Github" target="_blank" rel="noopener" href="https://github.com/weiwenduo">
+              <iconify-icon width="20" icon="ri:github-line"></iconify-icon>
+            </a>
+          
+        
+        <a class="w-5 h-5" title="toggle theme">
+          <iconify-icon width="20" icon="ri:sun-line" id="toggle-dark"></iconify-icon>
+        </a>
+      </div>
+      <div class="flex items-center justify-center gap-3 ml-3 sm:hidden">
+        <span class="w-5 h-5" aria-hidden="true" role="img" id="open-menu">
+          <iconify-icon width="20" icon="carbon:menu" ></iconify-icon>
+        </span>
+        <span class="w-5 h-5 hidden" aria-hidden="true" role="img" id="close-menu">
+          <iconify-icon  width="20" icon="carbon:close" ></iconify-icon>
+        </span>
+      </div>
+    </nav>
+  </div>
+</header>
+<div id="menu-panel" class="h-0 overflow-hidden sm:hidden fixed left-0 right-0 top-12 bottom-0 z-10">
+  <div id="menu-content" class="relative z-20 bg-white/80 px-6 sm:px-8 py-2 backdrop-blur-xl -translate-y-full transition-transform duration-300">
+    <ul class="nav flex flex-col sm:flex-row text-sm font-medium">
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/archives" class="flex h-12 sm:h-auto items-center">Posts</a>
+        </li>
+      
+    </ul>
+  </div>
+  <div class="mask bg-black/20 absolute inset-0"></div>
+</div>
+
+  <main class="p-12">
+    <!-- toc -->
+
+  <!-- tocbot -->
+<nav class="post-toc toc text-sm w-48 relative top-32 right-0 opacity-70 hidden lg:block" style="position: fixed !important;"></nav>
+
+
+<section class="px-6 max-w-prose mx-auto md:px-0">
+  <!-- header -->
+  <header class="overflow-hidden pt-6 pb-6 md:pt-12">
+    <div class="pt-4 md:pt-6">
+      <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
+        使用JMeter简单测试接口并发
+      </h1>
+      <p class="mb-6">
+        
+      </p>
+      <div>
+        <section class="flex items-center gap-3 text-sm">
+          <time>2023-03-15 19:47:26</time>
+          <span class="text-gray-400">·</span>
+          <span>1 min</span>
+          <span class="text-gray-400">·</span>
+          <span>312 words</span>
+        </section>
+      </div>
+    </div>
+  </header>
+  <!-- content -->
+  <article class="post-content mt-10 prose dark:prose-invert post-content">
+    <h3 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1. 准备工作"></a>1. 准备工作</h3><p>测试工具：Apache JMeter 5.1.1</p>
+<h3 id="2-操作流程"><a href="#2-操作流程" class="headerlink" title="2. 操作流程"></a>2. 操作流程</h3><h4 id="2-1-创建线程组"><a href="#2-1-创建线程组" class="headerlink" title="2.1. 创建线程组"></a>2.1. 创建线程组</h4><img src="https://minioapi.wenduo.fun:26666/blog/img/2020/05/23/T0cEiB.png" alt="T0cEiB" style="zoom: 20%;" />
+
+<p><img src="https://minioapi.wenduo.fun:26666/blog/img/2020/05/23/5E4342FD-F1A4-4D3B-A441-320F4ED2DFDD.png" alt="5E4342FD-F1A4-4D3B-A441-320F4ED2DFDD"></p>
+<ul>
+<li>线程数：同时请求的数量</li>
+<li>Ramp-Up时间：线程之间间隔的时间</li>
+<li>循环次数：该线程组循环运行的次数</li>
+</ul>
+<h4 id="2-2-添加HTTP请求"><a href="#2-2-添加HTTP请求" class="headerlink" title="2.2. 添加HTTP请求"></a>2.2. 添加HTTP请求</h4><img src="https://minioapi.wenduo.fun:26666/blog/img/2020/05/23/9E71A288-B9C8-4744-9A38-DEF4AA5866AA.png" alt="9E71A288-B9C8-4744-9A38-DEF4AA5866AA" style="zoom:40%;" />
+
+<p><img src="https://minioapi.wenduo.fun:26666/blog/img/2020/05/23/5DFFB027-1824-4BF7-A6CA-5B1907EB457E.png" alt="5DFFB027-1824-4BF7-A6CA-5B1907EB457E"></p>
+<h4 id="2-3-在『线程组』中添加『HTTP信息头管理器』"><a href="#2-3-在『线程组』中添加『HTTP信息头管理器』" class="headerlink" title="2.3. 在『线程组』中添加『HTTP信息头管理器』"></a>2.3. 在『线程组』中添加『HTTP信息头管理器』</h4><img src="https://minioapi.wenduo.fun:26666/blog/img/2020/05/23/DB706B5D-C37E-44FA-920C-52653B61B0C2.png" alt="DB706B5D-C37E-44FA-920C-52653B61B0C2" style="zoom:40%;" />
+
+<p><img src="https://minioapi.wenduo.fun:26666/blog/img/2020/05/23/E3554723-82BB-4070-8832-7B4B2BD7234C.png" alt="E3554723-82BB-4070-8832-7B4B2BD7234C"></p>
+<h4 id="2-4-添加『用表格查看结果』"><a href="#2-4-添加『用表格查看结果』" class="headerlink" title="2.4. 添加『用表格查看结果』"></a>2.4. 添加『用表格查看结果』</h4><img src="https://minioapi.wenduo.fun:26666/blog/img/2020/05/23/EF05095C-9F22-4F78-AB33-3CC6C31C81A8.png" alt="EF05095C-9F22-4F78-AB33-3CC6C31C81A8" style="zoom:44%;" />
+
+<h4 id="2-5-点击『启动』即可看到执行结果"><a href="#2-5-点击『启动』即可看到执行结果" class="headerlink" title="2.5. 点击『启动』即可看到执行结果"></a>2.5. 点击『启动』即可看到执行结果</h4><p><img src="https://minioapi.wenduo.fun:26666/blog/img/2020/05/23/54F3FFC5-64FB-4A41-A5D6-CAC806B7EE3B.png" alt="54F3FFC5-64FB-4A41-A5D6-CAC806B7EE3B"></p>
+<h3 id="3-查看测试结果"><a href="#3-查看测试结果" class="headerlink" title="3. 查看测试结果"></a>3. 查看测试结果</h3><p>测试结果表格中中，各参数的意义如下：</p>
+<ul>
+<li>Sample：每个请求的序号</li>
+<li>Start Time：每个请求开始时间</li>
+<li>Thread Name：每个线程的名称</li>
+<li>Label：Http请求名称</li>
+<li>Sample Time：每个请求所花时间，单位毫秒</li>
+<li>Status：请求状态，如果为勾则表示成功，如果为叉表示失败。</li>
+<li>Bytes：请求的字节数</li>
+</ul>
+<p>在下面还有几个参数：</p>
+<ul>
+<li>样本数目：也就是上面所说的请求个数，成功的情况下等于你设定的并发数目乘以循环次数</li>
+<li>平均：每个线程请求的平均时间</li>
+<li>最新样本：表示服务器响应最后一个请求的时间</li>
+<li>偏离：服务器响应时间变化、离散程度测量值的大小。</li>
+</ul>
+
+  </article>
+  <!-- tag -->
+  <div class="mt-12 pt-6 border-t border-gray-200">
+    
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/JMeter/">JMeter</a>
+        </span>
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/%E6%B5%8B%E8%AF%95/">测试</a>
+        </span>
+      
+    
+  </div>
+  <!-- prev and next -->
+  <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
+    <div>
+      
+        <a href="/2020/10/26/Spring%20Cloud%20Netflix%20Zuul%20-%20Filter%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
+          Spring Cloud Netflix Zuul - Filter的四个阶段
+        </a>
+      
+    </div>
+    <div>
+      
+    </div>
+  </div>
+  <!-- comment -->
+  <div class="article-comments mt-12">
+    
+
+  </div>
+</section>
+
+  </main>
+  <footer class="flex flex-col h-40 items-center justify-center text-gray-400 text-sm">
+  <!-- busuanzi -->
+  
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- Busuanzi Analytics -->
+<div class="flex items-center gap-2">
+  <span>Visitor Count</span>
+  <span id="busuanzi_value_site_uv"></span>
+  <span>Totalview</span>
+  <span id="busuanzi_value_site_pv"></span>
+</div>
+<!-- End Busuanzi Analytics -->
+
+
+  <!-- copyright -->
+  <div class="flex items-center gap-2">
+    <span>© 2022</span>
+    <iconify-icon width="18" icon="emojione-monotone:maple-leaf" ></iconify-icon>
+    <a href="https://github.com/xbmlz" target="_blank" rel="noopener noreferrer">xbmlz</a>
+  </div>
+  <!-- powered by -->
+  <div class="flex items-center gap-2">
+    <span>Powered by</span>
+    <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer">Hexo</a>
+    <span>&</span>
+    <a href="https://github.com/xbmlz/hexo-theme-maple" target="_blank" rel="noopener noreferrer">Maple</a>
+  </div>
+
+</footer>
+
+  <iconify-icon class="fixed right-4 bottom-10 z-100 opacity-0" width="24" icon="ion:arrow-up-c" id="go-top"></iconify-icon>
+  
+<script src="/lib/clipboard.min.js"></script>
+
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+<script src="/lib/fancybox/fancybox.umd.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+    $('.post-content').each(function(i){
+      $(this).find('img').each(function(){
+        if ($(this).parent().hasClass('fancybox') || $(this).parent().is('a')) return;
+        var alt = this.alt;
+        if (alt) $(this).after('<span class="fancybox-alt">' + alt + '</span>');
+        $(this).wrap('<a class="fancybox-img" href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
+      });
+      $(this).find('.fancybox').each(function(){
+        $(this).attr('rel', 'article' + i);
+      });
+    });
+
+    Fancybox.bind('[data-fancybox="gallery"]', {
+        // options
+    })
+  })
+</script>
+
+<!-- tocbot begin -->
+
+<script src="/lib/tocbot/tocbot.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+      tocbot.init({
+        // Where to render the table of contents.
+        tocSelector: '.post-toc',
+        // Where to grab the headings to build the table of contents.
+        contentSelector: '.post-content',
+        // Which headings to grab inside of the contentSelector element.
+        headingSelector: 'h1, h2, h3',
+        // For headings inside relative or absolute positioned containers within content.
+        hasInnerContainers: true,
+    });
+  })
+</script>
+<!-- tocbot end -->
+
+
+</body>
+
+</html>

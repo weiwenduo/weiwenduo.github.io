@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <meta name="author" content="WENDUO">
+
+
+
+
+
+<title>记录：自己实现一个DDNS客户端 | WENDUO&#39;S BLOG</title>
+
+
+
+<link rel="icon" href="/images/logo.svg">
+
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/nprogress/nprogress.css">
+
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.min.css">
+
+
+<link rel="stylesheet" href="/lib/tocbot/tocbot.min.css">
+
+
+
+<script src="/lib/jquery.min.js"></script>
+
+
+<script src="/lib/iconify-icon.min.js"></script>
+
+
+<script src="https://cdn.tailwindcss.com?plugins=typography,line-clamp"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+  }
+</script>
+
+
+<script src="/lib/nprogress/nprogress.js"></script>
+
+<script>
+  $(document).ready(() => {
+    NProgress.configure({
+      showSpinner: false,
+    });
+    NProgress.start();
+    $("#nprogress .bar").css({
+      background: "#de7441",
+    });
+    $("#nprogress .peg").css({
+      "box-shadow": "0 0 2px #de7441, 0 0 4px #de7441",
+    });
+    $("#nprogress .spinner-icon").css({
+      "border-top-color": "#de7441",
+      "border-left-color": "#de7441",
+    });
+    setTimeout(function () {
+      NProgress.done();
+      $(".fade").removeClass("out");
+    }, 800);
+  });
+</script>
+
+<script>
+  (function () {
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+    if (setting === "dark" || (prefersDark && setting !== "light"))
+      document.documentElement.classList.toggle("dark", true);
+  })();
+  window.onload = function () {
+    // init iconify icon
+    const isDark = document.documentElement.classList.contains("dark");
+    if (isDark) {
+      $("#toggle-dark").attr("icon", "ri:moon-line");
+    } else {
+      $("#toggle-dark").attr("icon", "ri:sun-line");
+    }
+
+    const toggleDark = () => {
+      console.log("toggle dark");
+      const darkMode = document.documentElement.classList.toggle("dark");
+      localStorage.setItem("hexo-color-scheme", darkMode ? "dark" : "light");
+      $("#toggle-dark").attr("icon", darkMode ? "ri:moon-line" : "ri:sun-line");
+    };
+
+    $("#toggle-dark").click(toggleDark);
+  };
+</script>
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body class="font-sans bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-200">
+  <header class="fixed w-full px-5 py-1 z-10 backdrop-blur-xl backdrop-saturate-150 border-b border-black/5">
+  <div class="max-auto">
+    <nav class="flex items-center text-base">
+      <a href="/" class="group">
+        <h2 class="font-medium tracking-tighterp text-l p-2">
+          <img class="w-5 mr-2 inline-block transition-transform group-hover:rotate-[30deg]" src="/images/logo.svg" alt="WENDUO'S BLOG" />
+          WENDUO&#39;S BLOG
+        </h2>
+      </a>
+      <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
+        项目
+      </div>
+      <div class="flex-1"></div>
+      <div class="flex items-center gap-3">
+        
+          <a class="hidden sm:flex" href="/archives">Posts</a>
+        
+        
+          
+            <a class="w-5 h-5 hidden sm:flex" title="Github" target="_blank" rel="noopener" href="https://github.com/weiwenduo">
+              <iconify-icon width="20" icon="ri:github-line"></iconify-icon>
+            </a>
+          
+        
+        <a class="w-5 h-5" title="toggle theme">
+          <iconify-icon width="20" icon="ri:sun-line" id="toggle-dark"></iconify-icon>
+        </a>
+      </div>
+      <div class="flex items-center justify-center gap-3 ml-3 sm:hidden">
+        <span class="w-5 h-5" aria-hidden="true" role="img" id="open-menu">
+          <iconify-icon width="20" icon="carbon:menu" ></iconify-icon>
+        </span>
+        <span class="w-5 h-5 hidden" aria-hidden="true" role="img" id="close-menu">
+          <iconify-icon  width="20" icon="carbon:close" ></iconify-icon>
+        </span>
+      </div>
+    </nav>
+  </div>
+</header>
+<div id="menu-panel" class="h-0 overflow-hidden sm:hidden fixed left-0 right-0 top-12 bottom-0 z-10">
+  <div id="menu-content" class="relative z-20 bg-white/80 px-6 sm:px-8 py-2 backdrop-blur-xl -translate-y-full transition-transform duration-300">
+    <ul class="nav flex flex-col sm:flex-row text-sm font-medium">
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/archives" class="flex h-12 sm:h-auto items-center">Posts</a>
+        </li>
+      
+    </ul>
+  </div>
+  <div class="mask bg-black/20 absolute inset-0"></div>
+</div>
+
+  <main class="p-12">
+    <!-- toc -->
+
+  <!-- tocbot -->
+<nav class="post-toc toc text-sm w-48 relative top-32 right-0 opacity-70 hidden lg:block" style="position: fixed !important;"></nav>
+
+
+<section class="px-6 max-w-prose mx-auto md:px-0">
+  <!-- header -->
+  <header class="overflow-hidden pt-6 pb-6 md:pt-12">
+    <div class="pt-4 md:pt-6">
+      <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
+        记录：自己实现一个DDNS客户端
+      </h1>
+      <p class="mb-6">
+        
+      </p>
+      <div>
+        <section class="flex items-center gap-3 text-sm">
+          <time>2023-03-15 19:47:26</time>
+          <span class="text-gray-400">·</span>
+          <span>8 min</span>
+          <span class="text-gray-400">·</span>
+          <span>1.8k words</span>
+        </section>
+      </div>
+    </div>
+  </header>
+  <!-- content -->
+  <article class="post-content mt-10 prose dark:prose-invert post-content">
+    <h2 id="1-背景"><a href="#1-背景" class="headerlink" title="1. 背景"></a>1. 背景</h2><p>前阵子被种草了群晖的NAS，心水已久，终于等到打折，狠下心入手了一台DS920。它能满足很多对私有云的需求，例如云盘&#x2F;云笔记&#x2F;云相册&#x2F;离线下载&#x2F;自建流媒体服务器等等。DSM系统用起来很方便，但有时工作需要从外网访问NAS，如果使用群晖提供的QuickConnect，速度很是令人堪忧。于是就有了外网直连访问家里NAS的想法。想法实现的其中一环，就是DDNS。</p>
+<p>群晖DSM中自带了DDNS客户端，但是不支持更新泛域名的记录值。其他也有很多开源的DDNS客户端，直接用即可。不过想着最近在学习Kotlin和Vert.x，这是一个实践的好机会，于是就有了今天的这篇记录。</p>
+<h2 id="2-实现思路"><a href="#2-实现思路" class="headerlink" title="2. 实现思路"></a>2. 实现思路</h2><h3 id="2-1-准备工作"><a href="#2-1-准备工作" class="headerlink" title="2.1 准备工作"></a>2.1 准备工作</h3><ul>
+<li>一枚域名</li>
+<li>一枚公网IP</li>
+<li>一台电脑</li>
+</ul>
+<h3 id="2-2-需要实现的基础功能"><a href="#2-2-需要实现的基础功能" class="headerlink" title="2.2 需要实现的基础功能"></a>2.2 需要实现的基础功能</h3><ul>
+<li>对接DNSPod运营商</li>
+<li>更新DNS解析的记录值</li>
+<li>计划任务</li>
+<li>提供Docker镜像方便部署</li>
+</ul>
+<h2 id="3-开动"><a href="#3-开动" class="headerlink" title="3. 开动"></a>3. 开动</h2><h3 id="3-1-新建工程"><a href="#3-1-新建工程" class="headerlink" title="3.1 新建工程"></a>3.1 新建工程</h3><p>使用<strong>Vert.x</strong>提供的 [App Generator]: <a target="_blank" rel="noopener" href="https://start.vertx.io/">https://start.vertx.io/</a> 创建一个工程。导入我们需要用到的工具包。以下是项目的依赖情况。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    implementation(<span class="string">&quot;org.jetbrains.kotlin:kotlin-reflect&quot;</span>)</span><br><span class="line">    implementation(<span class="string">&quot;org.jetbrains.kotlin:kotlin-stdlib-jdk8&quot;</span>)</span><br><span class="line">    implementation(<span class="string">&quot;com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0&quot;</span>)</span><br><span class="line">    implementation(<span class="string">&quot;io.vertx:vertx-web:<span class="variable">$vertxVersion</span>&quot;</span>)</span><br><span class="line">    implementation(<span class="string">&quot;io.vertx:vertx-lang-kotlin:<span class="variable">$vertxVersion</span>&quot;</span>)</span><br><span class="line">    implementation(<span class="string">&quot;com.tencentcloudapi:tencentcloud-sdk-java-dnspod:<span class="variable">$tencentcloudVersion</span>&quot;</span>)</span><br><span class="line">    implementation(<span class="string">&quot;ch.qos.logback:logback-classic:<span class="variable">$logbackVersion</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-实现获取公网IP函数"><a href="#3-2-实现获取公网IP函数" class="headerlink" title="3.2 实现获取公网IP函数"></a>3.2 实现获取公网IP函数</h3><p>有两种方式可以获得公网IP。</p>
+<ul>
+<li><p>从本地网卡获取。</p>
+</li>
+<li><p>调用公开的获取公网IP接口。</p>
+</li>
+</ul>
+<p>由于家庭宽带网络环境复杂，从网卡可能会无法获取或不准确。所以此处我们选择后者。以下是部分代码片段。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 搜狐获取公网IP接口URL</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">val</span> SOHU_GET_IP_URL = <span class="string">&quot;http://pv.sohu.com/cityjson?ie=utf-8&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 调用搜狐接口获取公网IP</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">getIp</span><span class="params">()</span></span>: String &#123;</span><br><span class="line">    <span class="keyword">val</span> request = HttpRequest.newBuilder(URI(SOHU_GET_IP_URL)).build()</span><br><span class="line">    <span class="keyword">val</span> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString())</span><br><span class="line">    <span class="keyword">var</span> responseBody = response.body()</span><br><span class="line">    responseBody = responseBody.substring(responseBody.indexOf(<span class="string">&quot;&#123;&quot;</span>), responseBody.lastIndexOf(<span class="string">&quot;&#125;&quot;</span>) + <span class="number">1</span>)</span><br><span class="line">    log.info(<span class="string">&quot;当前公网IP =&gt; <span class="variable">$responseBody</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> JsonObject(responseBody).getString(<span class="string">&quot;cip&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-定义配置类"><a href="#3-3-定义配置类" class="headerlink" title="3.3 定义配置类"></a>3.3 定义配置类</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span> Config &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> log: Logger = LoggerFactory.getLogger(<span class="keyword">this</span>.javaClass)</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 默认配置文件名</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">val</span> DEFAULT_CONFIG_FILE_NAME = <span class="string">&quot;config.json&quot;</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 外部配置文件默认路径</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">val</span> DEFAULT_EXTERNAL_CONFIG_FILE_URI = <span class="string">&quot;/config/config.json&quot;</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 配置参数对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> properties : ConfigProperties</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 加载配置文件</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">init</span> &#123;</span><br><span class="line">        <span class="comment">//读取默认配置文件</span></span><br><span class="line">        <span class="keyword">val</span> internalSource = ClassLoader.getSystemResourceAsStream(DEFAULT_CONFIG_FILE_NAME)</span><br><span class="line">        <span class="keyword">val</span> configMap: HashMap&lt;String, Any&gt; =</span><br><span class="line">            objectMapper.readValue(internalSource, jacksonTypeRef&lt;HashMap&lt;String, Any&gt;&gt;())</span><br><span class="line">        <span class="comment">//读取外部配置文件</span></span><br><span class="line">        <span class="keyword">val</span> externalSource = File(DEFAULT_EXTERNAL_CONFIG_FILE_URI)</span><br><span class="line">        <span class="keyword">if</span> (externalSource.exists() &amp;&amp; externalSource.isFile) &#123;</span><br><span class="line">            log.debug(<span class="string">&quot;加载外部配置文件&quot;</span>)</span><br><span class="line">            <span class="keyword">val</span> externalProperties =</span><br><span class="line">                objectMapper.readValue(externalSource, jacksonTypeRef&lt;HashMap&lt;String, Any&gt;&gt;())</span><br><span class="line">            configMap.putAll(externalProperties)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">val</span> configJson = objectMapper.writeValueAsString(configMap)</span><br><span class="line">        properties = objectMapper.readValue(configJson, jacksonTypeRef&lt;ConfigProperties&gt;())</span><br><span class="line">        log.info(<span class="string">&quot;Config load success!  =&gt; <span class="variable">$configJson</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取参数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getProperties</span><span class="params">()</span></span>: ConfigProperties = properties</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 配置类</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> type 域名服务商</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> schedule 计划任务</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> api 域名服务商详细配置</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Serializable</span></span><br><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">ConfigProperties</span>(</span><br><span class="line">    <span class="keyword">var</span> type: TypeEnum,</span><br><span class="line">    <span class="keyword">var</span> schedule: ScheduleProperties,</span><br><span class="line">    <span class="keyword">var</span> api: APIProperties</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 计划任务配置</span></span><br><span class="line"><span class="comment"> * 默认开启，5分钟执行一次</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> enabled 开启状态，默认开启。</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> interval 计划任务时间间隔，单位秒。默认300。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Serializable</span></span><br><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">ScheduleProperties</span>(</span><br><span class="line">    <span class="keyword">var</span> enabled: <span class="built_in">Boolean</span> = <span class="literal">true</span>,</span><br><span class="line">    <span class="keyword">var</span> interval: <span class="built_in">Long</span> = <span class="number">300</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * API</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> dnspod DNSPod配置</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Serializable</span></span><br><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">APIProperties</span>(</span><br><span class="line">    <span class="keyword">var</span> dnspod: DNSPodProperties</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * DNSPod配置</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> secretId</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> secretKey</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> domain</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Serializable</span></span><br><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">DNSPodProperties</span>(</span><br><span class="line">    <span class="keyword">var</span> secretId: String,</span><br><span class="line">    <span class="keyword">var</span> secretKey: String,</span><br><span class="line">    <span class="keyword">var</span> domain: String</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>配置文件则如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;DNSPod&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;schedule&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;interval&quot;</span><span class="punctuation">:</span> <span class="number">300</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;enabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;api&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;dnspod&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;secretId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;xxxxxxxxxxxxxxxxxxxxxx&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;secretKey&quot;</span><span class="punctuation">:</span> <span class="string">&quot;xxxxxxxxxxxxxxxxxxxxxx&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;domain&quot;</span><span class="punctuation">:</span> <span class="string">&quot;xxxxx.xxx&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-4-对接DNSPod的API"><a href="#3-4-对接DNSPod的API" class="headerlink" title="3.4 对接DNSPod的API"></a>3.4 对接DNSPod的API</h3><p>对接DNSPod的SDK，并且预留对接其他运营商的接口。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * API操作类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">object</span> CloudApiManager &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> log: Logger = LoggerFactory.getLogger(<span class="keyword">this</span>.javaClass)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> executor: CloudApi</span><br><span class="line">    <span class="keyword">init</span> &#123;</span><br><span class="line">        <span class="keyword">val</span> type = Config.getProperties().type</span><br><span class="line">        <span class="keyword">when</span> (type) &#123;</span><br><span class="line">            NONE -&gt; &#123;</span><br><span class="line">                <span class="keyword">throw</span> RuntimeException(<span class="string">&quot;未指定域名运营商，请设置type参数！&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            DNSPod -&gt; executor = DNSPodApi</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">execute</span><span class="params">()</span></span> = executor.execute()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 域名运营商接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">CloudApi</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">execute</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * DNSPod实现</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">object</span> DNSPodApi : CloudApi &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> log: Logger = LoggerFactory.getLogger(<span class="keyword">this</span>.javaClass)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> secretId: String = Config.getProperties().api.dnspod.secretId</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> secretKey: String = Config.getProperties().api.dnspod.secretKey</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> domain: String = Config.getProperties().api.dnspod.domain</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> client: DnspodClient = DnspodClient(</span><br><span class="line">        Credential(secretId, secretKey),</span><br><span class="line">        <span class="string">&quot;&quot;</span>,</span><br><span class="line">        ClientProfile(ClientProfile.SIGN_TC3_256, HttpProfile().also &#123; it.endpoint = <span class="string">&quot;dnspod.tencentcloudapi.com&quot;</span> &#125;)</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">execute</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">val</span> recordList = getDescribeRecordList().recordList.map &#123; it.recordId &#125;.toTypedArray()</span><br><span class="line">            modifyRecordBatch(recordList)</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e: Exception) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;更新失败&quot;</span>, e)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取某个域名下的解析记录</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Throws(TencentCloudSDKException::class)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">getDescribeRecordList</span><span class="params">()</span></span>: DescribeRecordListResponse &#123;</span><br><span class="line">        <span class="keyword">val</span> req = DescribeRecordListRequest().also &#123;</span><br><span class="line">            it.domain = domain</span><br><span class="line">            it.recordType = <span class="string">&quot;A&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> client.DescribeRecordList(req)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 批量修改记录</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Throws(TencentCloudSDKException::class)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">modifyRecordBatch</span><span class="params">(recordIds: <span class="type">Array</span>&lt;<span class="type">Long</span>&gt;)</span></span>: ModifyRecordBatchResponse &#123;</span><br><span class="line">        <span class="keyword">return</span> modifyRecordBatch(recordIds, getIp())</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 批量修改记录</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Throws(TencentCloudSDKException::class)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">modifyRecordBatch</span><span class="params">(recordIds: <span class="type">Array</span>&lt;<span class="type">Long</span>&gt;, ip: <span class="type">String</span>)</span></span>: ModifyRecordBatchResponse &#123;</span><br><span class="line">        <span class="keyword">val</span> req = ModifyRecordBatchRequest().also &#123;</span><br><span class="line">            it.recordIdList = recordIds</span><br><span class="line">            it.change = <span class="string">&quot;value&quot;</span></span><br><span class="line">            it.changeTo = ip</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">val</span> resp = client.ModifyRecordBatch(req)</span><br><span class="line">        log.info(<span class="string">&quot;修改记录值成功 :: 结果 =&gt; &quot;</span> + ModifyRecordBatchResponse.toJsonString(resp))</span><br><span class="line">        <span class="keyword">return</span> resp</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-5-实现计划任务"><a href="#3-5-实现计划任务" class="headerlink" title="3.5 实现计划任务"></a>3.5 实现计划任务</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span> Schedule &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> log: Logger = LoggerFactory.getLogger(<span class="keyword">this</span>.javaClass)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> timer: Timer = Timer(<span class="string">&quot;ddnsw-schedule&quot;</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> interval: <span class="built_in">Long</span> = Config.getProperties().schedule.interval</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">start</span><span class="params">()</span></span> &#123;</span><br><span class="line">        timer.schedule(timerTask &#123; CloudApiManager.execute() &#125;, <span class="number">0</span>, interval)</span><br><span class="line">        log.info(<span class="string">&quot;计划任务启动&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">stop</span><span class="params">()</span></span> &#123;</span><br><span class="line">        timer.cancel()</span><br><span class="line">        log.info(<span class="string">&quot;计划任务停止&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-6-实现RestAPI控制程序"><a href="#3-6-实现RestAPI控制程序" class="headerlink" title="3.6 实现RestAPI控制程序"></a>3.6 实现RestAPI控制程序</h3><p>这一步是提供了Rest的API来控制程序。我们需要实现四个HTTP接口，分别是：开始&#x2F;停止定时任务、查询公网IP和更新DNS解析记录值。以下是Vert.x设置路由和启动HttpServer的部分代码。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MainVerticle</span> : <span class="type">AbstractVerticle</span>() &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">start</span><span class="params">(startPromise: <span class="type">Promise</span>&lt;<span class="type">Void</span>&gt;)</span></span> &#123;</span><br><span class="line">        <span class="comment">//路由</span></span><br><span class="line">        <span class="keyword">val</span> router = Router.router(vertx)</span><br><span class="line">        router.route().handler(ResponseContentTypeHandler.create())</span><br><span class="line">        router.<span class="keyword">get</span>(<span class="string">&quot;/ip&quot;</span>).handler(GetIpHandler())</span><br><span class="line">        router.<span class="keyword">get</span>(<span class="string">&quot;/update&quot;</span>).handler(UpdateHandler())</span><br><span class="line">        router.<span class="keyword">get</span>(<span class="string">&quot;/schedule/start&quot;</span>).handler(ScheduleStartHandler())</span><br><span class="line">        router.<span class="keyword">get</span>(<span class="string">&quot;/schedule/stop&quot;</span>).handler(ScheduleStopHandler())</span><br><span class="line">        <span class="comment">//启动服务器</span></span><br><span class="line">        vertx.createHttpServer()</span><br><span class="line">            .requestHandler(router)</span><br><span class="line">            .listen(<span class="number">9090</span>)</span><br><span class="line">            .onSuccess &#123;</span><br><span class="line">                startPromise.complete()</span><br><span class="line">                log.info(<span class="string">&quot;HTTP Server started on port <span class="subst">$&#123;it.actualPort()&#125;</span>&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            .onFailure &#123;</span><br><span class="line">                startPromise.fail(it.cause)</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-7-打包镜像-x2F-上传到DockerHub"><a href="#3-7-打包镜像-x2F-上传到DockerHub" class="headerlink" title="3.7 打包镜像&#x2F;上传到DockerHub"></a>3.7 打包镜像&#x2F;上传到DockerHub</h3><ul>
+<li>Dockerfile如下</li>
+</ul>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> mcr.microsoft.com/java/jre:<span class="number">11</span>u13-zulu-alpine</span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> ./build/libs/ddnsw-fat.jar /root</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /root</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">9090</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;java&quot;</span>, <span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;ddnsw-fat.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>打包镜像并上传</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">docker build -t weidajiao/ddnsw:latest .</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">docker push weidajiao/ddnsw:latest</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-8-在NAS上启动"><a href="#3-8-在NAS上启动" class="headerlink" title="3.8 在NAS上启动"></a>3.8 在NAS上启动</h3><p>使用docker-compose在NAS上启动容器。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">ddnsw:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">&quot;weidajiao/ddnsw:latest&quot;</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">&quot;ddnsw&quot;</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;9090:9090&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./config:/config</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h2><p>本次主要是使用Kotlin、Vert.x框架实现了一个DDNS客户端，目的是为了NAS能在外网直连访问，顺便练练手，熟悉一下Kotlin和Vert.x。</p>
+<p>到此目的已经达到，不过程序只是达到一个基本可用的状态，还有很多细节需要再琢磨琢磨。例如提供多种配置方式（环境变量&#x2F;命令参数等）、对接多个域名运营商、适配宿主机直接运行、内置多个IP获取接口做备用等等。</p>
+<p>OK，本篇到此结束。</p>
+
+  </article>
+  <!-- tag -->
+  <div class="mt-12 pt-6 border-t border-gray-200">
+    
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/Server/">Server</a>
+        </span>
+      
+    
+  </div>
+  <!-- prev and next -->
+  <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
+    <div>
+      
+        <a href="/2022/06/23/%E8%AE%B0%E5%BD%95%EF%BC%9AIDEA%E5%9B%A0%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
+          记录：IDEA因端口占用无法启动的问题解决
+        </a>
+      
+    </div>
+    <div>
+      
+        <a href="/2021/05/27/MySQL%E4%B8%AD%E7%9A%84utf8%E3%80%81utf8mb4%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          MySQL中的utf8、utf8mb4有什么区别
+          <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
+        </a>
+      
+    </div>
+  </div>
+  <!-- comment -->
+  <div class="article-comments mt-12">
+    
+
+  </div>
+</section>
+
+  </main>
+  <footer class="flex flex-col h-40 items-center justify-center text-gray-400 text-sm">
+  <!-- busuanzi -->
+  
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- Busuanzi Analytics -->
+<div class="flex items-center gap-2">
+  <span>Visitor Count</span>
+  <span id="busuanzi_value_site_uv"></span>
+  <span>Totalview</span>
+  <span id="busuanzi_value_site_pv"></span>
+</div>
+<!-- End Busuanzi Analytics -->
+
+
+  <!-- copyright -->
+  <div class="flex items-center gap-2">
+    <span>© 2022</span>
+    <iconify-icon width="18" icon="emojione-monotone:maple-leaf" ></iconify-icon>
+    <a href="https://github.com/xbmlz" target="_blank" rel="noopener noreferrer">xbmlz</a>
+  </div>
+  <!-- powered by -->
+  <div class="flex items-center gap-2">
+    <span>Powered by</span>
+    <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer">Hexo</a>
+    <span>&</span>
+    <a href="https://github.com/xbmlz/hexo-theme-maple" target="_blank" rel="noopener noreferrer">Maple</a>
+  </div>
+
+</footer>
+
+  <iconify-icon class="fixed right-4 bottom-10 z-100 opacity-0" width="24" icon="ion:arrow-up-c" id="go-top"></iconify-icon>
+  
+<script src="/lib/clipboard.min.js"></script>
+
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+<script src="/lib/fancybox/fancybox.umd.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+    $('.post-content').each(function(i){
+      $(this).find('img').each(function(){
+        if ($(this).parent().hasClass('fancybox') || $(this).parent().is('a')) return;
+        var alt = this.alt;
+        if (alt) $(this).after('<span class="fancybox-alt">' + alt + '</span>');
+        $(this).wrap('<a class="fancybox-img" href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
+      });
+      $(this).find('.fancybox').each(function(){
+        $(this).attr('rel', 'article' + i);
+      });
+    });
+
+    Fancybox.bind('[data-fancybox="gallery"]', {
+        // options
+    })
+  })
+</script>
+
+<!-- tocbot begin -->
+
+<script src="/lib/tocbot/tocbot.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+      tocbot.init({
+        // Where to render the table of contents.
+        tocSelector: '.post-toc',
+        // Where to grab the headings to build the table of contents.
+        contentSelector: '.post-content',
+        // Which headings to grab inside of the contentSelector element.
+        headingSelector: 'h1, h2, h3',
+        // For headings inside relative or absolute positioned containers within content.
+        hasInnerContainers: true,
+    });
+  })
+</script>
+<!-- tocbot end -->
+
+
+</body>
+
+</html>

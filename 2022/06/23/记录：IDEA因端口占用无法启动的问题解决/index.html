@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <meta name="author" content="WENDUO">
+
+
+
+
+
+<title>记录：IDEA因端口占用无法启动的问题解决 | WENDUO&#39;S BLOG</title>
+
+
+
+<link rel="icon" href="/images/logo.svg">
+
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/nprogress/nprogress.css">
+
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.min.css">
+
+
+<link rel="stylesheet" href="/lib/tocbot/tocbot.min.css">
+
+
+
+<script src="/lib/jquery.min.js"></script>
+
+
+<script src="/lib/iconify-icon.min.js"></script>
+
+
+<script src="https://cdn.tailwindcss.com?plugins=typography,line-clamp"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+  }
+</script>
+
+
+<script src="/lib/nprogress/nprogress.js"></script>
+
+<script>
+  $(document).ready(() => {
+    NProgress.configure({
+      showSpinner: false,
+    });
+    NProgress.start();
+    $("#nprogress .bar").css({
+      background: "#de7441",
+    });
+    $("#nprogress .peg").css({
+      "box-shadow": "0 0 2px #de7441, 0 0 4px #de7441",
+    });
+    $("#nprogress .spinner-icon").css({
+      "border-top-color": "#de7441",
+      "border-left-color": "#de7441",
+    });
+    setTimeout(function () {
+      NProgress.done();
+      $(".fade").removeClass("out");
+    }, 800);
+  });
+</script>
+
+<script>
+  (function () {
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+    if (setting === "dark" || (prefersDark && setting !== "light"))
+      document.documentElement.classList.toggle("dark", true);
+  })();
+  window.onload = function () {
+    // init iconify icon
+    const isDark = document.documentElement.classList.contains("dark");
+    if (isDark) {
+      $("#toggle-dark").attr("icon", "ri:moon-line");
+    } else {
+      $("#toggle-dark").attr("icon", "ri:sun-line");
+    }
+
+    const toggleDark = () => {
+      console.log("toggle dark");
+      const darkMode = document.documentElement.classList.toggle("dark");
+      localStorage.setItem("hexo-color-scheme", darkMode ? "dark" : "light");
+      $("#toggle-dark").attr("icon", darkMode ? "ri:moon-line" : "ri:sun-line");
+    };
+
+    $("#toggle-dark").click(toggleDark);
+  };
+</script>
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body class="font-sans bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-200">
+  <header class="fixed w-full px-5 py-1 z-10 backdrop-blur-xl backdrop-saturate-150 border-b border-black/5">
+  <div class="max-auto">
+    <nav class="flex items-center text-base">
+      <a href="/" class="group">
+        <h2 class="font-medium tracking-tighterp text-l p-2">
+          <img class="w-5 mr-2 inline-block transition-transform group-hover:rotate-[30deg]" src="/images/logo.svg" alt="WENDUO'S BLOG" />
+          WENDUO&#39;S BLOG
+        </h2>
+      </a>
+      <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
+        项目
+      </div>
+      <div class="flex-1"></div>
+      <div class="flex items-center gap-3">
+        
+          <a class="hidden sm:flex" href="/archives">Posts</a>
+        
+        
+          
+            <a class="w-5 h-5 hidden sm:flex" title="Github" target="_blank" rel="noopener" href="https://github.com/weiwenduo">
+              <iconify-icon width="20" icon="ri:github-line"></iconify-icon>
+            </a>
+          
+        
+        <a class="w-5 h-5" title="toggle theme">
+          <iconify-icon width="20" icon="ri:sun-line" id="toggle-dark"></iconify-icon>
+        </a>
+      </div>
+      <div class="flex items-center justify-center gap-3 ml-3 sm:hidden">
+        <span class="w-5 h-5" aria-hidden="true" role="img" id="open-menu">
+          <iconify-icon width="20" icon="carbon:menu" ></iconify-icon>
+        </span>
+        <span class="w-5 h-5 hidden" aria-hidden="true" role="img" id="close-menu">
+          <iconify-icon  width="20" icon="carbon:close" ></iconify-icon>
+        </span>
+      </div>
+    </nav>
+  </div>
+</header>
+<div id="menu-panel" class="h-0 overflow-hidden sm:hidden fixed left-0 right-0 top-12 bottom-0 z-10">
+  <div id="menu-content" class="relative z-20 bg-white/80 px-6 sm:px-8 py-2 backdrop-blur-xl -translate-y-full transition-transform duration-300">
+    <ul class="nav flex flex-col sm:flex-row text-sm font-medium">
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/archives" class="flex h-12 sm:h-auto items-center">Posts</a>
+        </li>
+      
+    </ul>
+  </div>
+  <div class="mask bg-black/20 absolute inset-0"></div>
+</div>
+
+  <main class="p-12">
+    <!-- toc -->
+
+  <!-- tocbot -->
+<nav class="post-toc toc text-sm w-48 relative top-32 right-0 opacity-70 hidden lg:block" style="position: fixed !important;"></nav>
+
+
+<section class="px-6 max-w-prose mx-auto md:px-0">
+  <!-- header -->
+  <header class="overflow-hidden pt-6 pb-6 md:pt-12">
+    <div class="pt-4 md:pt-6">
+      <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
+        记录：IDEA因端口占用无法启动的问题解决
+      </h1>
+      <p class="mb-6">
+        
+      </p>
+      <div>
+        <section class="flex items-center gap-3 text-sm">
+          <time>2023-03-15 19:47:26</time>
+          <span class="text-gray-400">·</span>
+          <span>3 min</span>
+          <span class="text-gray-400">·</span>
+          <span>809 words</span>
+        </section>
+      </div>
+    </div>
+  </header>
+  <!-- content -->
+  <article class="post-content mt-10 prose dark:prose-invert post-content">
+    <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>Windows 11 22H2<br>IntelliJ IDEA 2022.1.3<br>Docker Desktop for Windows 4.8.2</p>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>打开IDEA准备开始工作时，IDEA启动失败，抛出了一个异常。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">Internal error. Please refer to http://jb.gg/ide/critical-startup-errors</span><br><span class="line"></span><br><span class="line">java.util.concurrent.CompletionException: java.net.BindException: Address already in use: bind</span><br><span class="line">    at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:314)</span><br><span class="line">    at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:319)</span><br><span class="line">    at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1702)</span><br><span class="line">    at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)</span><br><span class="line">    at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)</span><br><span class="line">    at java.base/java.lang.Thread.run(Thread.java:834)</span><br><span class="line">Caused by: java.net.BindException: Address already in use: bind</span><br><span class="line">    at java.base/sun.nio.ch.Net.bind0(Native Method)</span><br><span class="line">    at java.base/sun.nio.ch.Net.bind(Net.java:455)</span><br><span class="line">    at java.base/sun.nio.ch.Net.bind(Net.java:447)</span><br><span class="line">    at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:227)</span><br><span class="line">    at io.netty.channel.socket.nio.NioServerSocketChannel.doBind(NioServerSocketChannel.java:132)</span><br><span class="line">    at io.netty.channel.AbstractChannel$AbstractUnsafe.bind(AbstractChannel.java:551)</span><br><span class="line">    at io.netty.channel.DefaultChannelPipeline$HeadContext.bind(DefaultChannelPipeline.java:1346)</span><br><span class="line">    at io.netty.channel.AbstractChannelHandlerContext.invokeBind(AbstractChannelHandlerContext.java:503)</span><br><span class="line">    at io.netty.channel.AbstractChannelHandlerContext.bind(AbstractChannelHandlerContext.java:488)</span><br><span class="line">    at io.netty.channel.DefaultChannelPipeline.bind(DefaultChannelPipeline.java:985)</span><br><span class="line">    at io.netty.channel.AbstractChannel.bind(AbstractChannel.java:247)</span><br><span class="line">    at io.netty.bootstrap.AbstractBootstrap$2.run(AbstractBootstrap.java:344)</span><br><span class="line">    at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)</span><br><span class="line">    at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:510)</span><br><span class="line">    at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:518)</span><br><span class="line">    at io.netty.util.concurrent.SingleThreadEventExecutor$6.run(SingleThreadEventExecutor.java:1044)</span><br><span class="line">    at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)</span><br><span class="line">    at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)</span><br><span class="line">    ... 1 more</span><br><span class="line"></span><br><span class="line">-----</span><br><span class="line">JRE 11.0.5+10-b520.30 amd64 by JetBrains s.r.o</span><br></pre></td></tr></table></figure>
+
+<p>异常显示，IDEA运行需要的服务端端口被占用，导致无法启动。</p>
+<h2 id="排查"><a href="#排查" class="headerlink" title="排查"></a>排查</h2><p>IDEA启动时，会启动一个本地的服务端，需要申请一个端口号使用。端口号申请规则是从6942到6991，取第一个可用的端口。既然这样，那就先查询6942是否被其他程序占用了。</p>
+<ol>
+<li>查询端口号是否被占用</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -ano | findstr 6942</span><br></pre></td></tr></table></figure>
+
+<p>发现没有程序占用。</p>
+<ol start="2">
+<li>查询端口号是否被系统预留给了其他程序</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh interface ipv4 show excludedportrange protocol=tcp</span><br></pre></td></tr></table></figure>
+
+<p>查看结果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">协议 tcp 端口排除范围</span><br><span class="line"></span><br><span class="line">开始端口    结束端口</span><br><span class="line">----------    --------</span><br><span class="line">...</span><br><span class="line">      6900        6949</span><br><span class="line">      6950        6999</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">* - 管理的端口排除。</span><br></pre></td></tr></table></figure>
+
+<p>这时可以看到，端口被系统排除掉不能使用。</p>
+<p>这其中涉及到Windows10以上版本的系统中的<strong>受管端口排除</strong>。在启用Hyper-V之后，系统会申请一部分端口留用。正巧在问题出现以前，我手贱更新了Docker Desktop（运行时需要Hyper-V支持）。</p>
+<h2 id="解决思路和步骤"><a href="#解决思路和步骤" class="headerlink" title="解决思路和步骤"></a>解决思路和步骤</h2><p>受管端口是可以用户自定义的。既然Hyper-V会申请保留一部分端口，那就在Hyper-V占用之前，自定义保留所需要的端口，保证IDEA在申请端口的时候，可以顺利申请到。</p>
+<p>确定思路就开始行动。</p>
+<h3 id="1-关闭Hyper-V"><a href="#1-关闭Hyper-V" class="headerlink" title="1. 关闭Hyper-V"></a>1. 关闭Hyper-V</h3><p>管理员身份运行PowerShell，运行以下命令。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Disable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V-All</span><br></pre></td></tr></table></figure>
+
+<p>运行之后重启系统。</p>
+<h3 id="2-保留IDEA需要的端口"><a href="#2-保留IDEA需要的端口" class="headerlink" title="2. 保留IDEA需要的端口"></a>2. 保留IDEA需要的端口</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh int ipv4 add excludedportrange protocol=tcp startport=6942 numberofports=50</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-启动Hyper-V"><a href="#3-启动Hyper-V" class="headerlink" title="3. 启动Hyper-V"></a>3. 启动Hyper-V</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V-All</span><br></pre></td></tr></table></figure>
+
+<p>重启系统之后，IDEA就可以运行了。</p>
+<p>查看受管端口排除列表，可以看到自定义规则已经生效了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">协议 tcp 端口排除范围</span><br><span class="line"></span><br><span class="line">开始端口    结束端口</span><br><span class="line">----------    --------</span><br><span class="line">...</span><br><span class="line">      5426        5426</span><br><span class="line">      6942        6991     *</span><br><span class="line">...</span><br><span class="line">      9281        9380</span><br><span class="line">     50000       50059     *</span><br><span class="line"></span><br><span class="line">* - 管理的端口排除。</span><br></pre></td></tr></table></figure>
+
+
+  </article>
+  <!-- tag -->
+  <div class="mt-12 pt-6 border-t border-gray-200">
+    
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/Java/">Java</a>
+        </span>
+      
+    
+  </div>
+  <!-- prev and next -->
+  <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
+    <div>
+      
+        <a href="/2022/12/07/%E8%AE%B0%E5%BD%95%EF%BC%9A%E5%9C%A8%E5%AE%B6%E9%87%8CPC%E4%B8%8A%E5%AE%89%E8%A3%85WSL%E5%B9%B6%E6%94%AF%E6%8C%81%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AE/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
+          记录：在外远程访问家里PC上的WSL
+        </a>
+      
+    </div>
+    <div>
+      
+        <a href="/2021/12/16/%E8%AE%B0%E5%BD%95%EF%BC%9A%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AADDNS%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          记录：自己实现一个DDNS客户端
+          <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
+        </a>
+      
+    </div>
+  </div>
+  <!-- comment -->
+  <div class="article-comments mt-12">
+    
+
+  </div>
+</section>
+
+  </main>
+  <footer class="flex flex-col h-40 items-center justify-center text-gray-400 text-sm">
+  <!-- busuanzi -->
+  
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- Busuanzi Analytics -->
+<div class="flex items-center gap-2">
+  <span>Visitor Count</span>
+  <span id="busuanzi_value_site_uv"></span>
+  <span>Totalview</span>
+  <span id="busuanzi_value_site_pv"></span>
+</div>
+<!-- End Busuanzi Analytics -->
+
+
+  <!-- copyright -->
+  <div class="flex items-center gap-2">
+    <span>© 2022</span>
+    <iconify-icon width="18" icon="emojione-monotone:maple-leaf" ></iconify-icon>
+    <a href="https://github.com/xbmlz" target="_blank" rel="noopener noreferrer">xbmlz</a>
+  </div>
+  <!-- powered by -->
+  <div class="flex items-center gap-2">
+    <span>Powered by</span>
+    <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer">Hexo</a>
+    <span>&</span>
+    <a href="https://github.com/xbmlz/hexo-theme-maple" target="_blank" rel="noopener noreferrer">Maple</a>
+  </div>
+
+</footer>
+
+  <iconify-icon class="fixed right-4 bottom-10 z-100 opacity-0" width="24" icon="ion:arrow-up-c" id="go-top"></iconify-icon>
+  
+<script src="/lib/clipboard.min.js"></script>
+
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+<script src="/lib/fancybox/fancybox.umd.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+    $('.post-content').each(function(i){
+      $(this).find('img').each(function(){
+        if ($(this).parent().hasClass('fancybox') || $(this).parent().is('a')) return;
+        var alt = this.alt;
+        if (alt) $(this).after('<span class="fancybox-alt">' + alt + '</span>');
+        $(this).wrap('<a class="fancybox-img" href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
+      });
+      $(this).find('.fancybox').each(function(){
+        $(this).attr('rel', 'article' + i);
+      });
+    });
+
+    Fancybox.bind('[data-fancybox="gallery"]', {
+        // options
+    })
+  })
+</script>
+
+<!-- tocbot begin -->
+
+<script src="/lib/tocbot/tocbot.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+      tocbot.init({
+        // Where to render the table of contents.
+        tocSelector: '.post-toc',
+        // Where to grab the headings to build the table of contents.
+        contentSelector: '.post-content',
+        // Which headings to grab inside of the contentSelector element.
+        headingSelector: 'h1, h2, h3',
+        // For headings inside relative or absolute positioned containers within content.
+        hasInnerContainers: true,
+    });
+  })
+</script>
+<!-- tocbot end -->
+
+
+</body>
+
+</html>
