@@ -1,292 +1,269 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
+
+
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="" />
+  
 
-
-
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-  <meta name="author" content="WENDUO">
-
-
-
-
-
-<title>归档: 2021/1 | WENDUO&#39;S BLOG</title>
-
-
-
-<link rel="icon" href="/images/logo.svg">
-
-
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/nprogress/nprogress.css">
-
-
-<link rel="stylesheet" href="/lib/fancybox/fancybox.min.css">
-
-
-<link rel="stylesheet" href="/lib/tocbot/tocbot.min.css">
-
-
-
-<script src="/lib/jquery.min.js"></script>
-
-
-<script src="/lib/iconify-icon.min.js"></script>
-
-
-<script src="https://cdn.tailwindcss.com?plugins=typography,line-clamp"></script>
-<script>
-  tailwind.config = {
-    darkMode: 'class',
-  }
-</script>
-
-
-<script src="/lib/nprogress/nprogress.js"></script>
-
-<script>
-  $(document).ready(() => {
-    NProgress.configure({
-      showSpinner: false,
-    });
-    NProgress.start();
-    $("#nprogress .bar").css({
-      background: "#de7441",
-    });
-    $("#nprogress .peg").css({
-      "box-shadow": "0 0 2px #de7441, 0 0 4px #de7441",
-    });
-    $("#nprogress .spinner-icon").css({
-      "border-top-color": "#de7441",
-      "border-left-color": "#de7441",
-    });
-    setTimeout(function () {
-      NProgress.done();
-      $(".fade").removeClass("out");
-    }, 800);
-  });
-</script>
-
-<script>
-  (function () {
-    const prefersDark =
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const setting = localStorage.getItem("hexo-color-scheme") || "auto";
-    if (setting === "dark" || (prefersDark && setting !== "light"))
-      document.documentElement.classList.toggle("dark", true);
-  })();
-  window.onload = function () {
-    // init iconify icon
-    const isDark = document.documentElement.classList.contains("dark");
-    if (isDark) {
-      $("#toggle-dark").attr("icon", "ri:moon-line");
-    } else {
-      $("#toggle-dark").attr("icon", "ri:sun-line");
-    }
-
-    const toggleDark = () => {
-      console.log("toggle dark");
-      const darkMode = document.documentElement.classList.toggle("dark");
-      localStorage.setItem("hexo-color-scheme", darkMode ? "dark" : "light");
-      $("#toggle-dark").attr("icon", darkMode ? "ri:moon-line" : "ri:sun-line");
-    };
-
-    $("#toggle-dark").click(toggleDark);
-  };
-</script>
-
-
-
-
+  
+    <meta name="description" content="WENDUO&#39;S BLOG," />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/logo2.svg">
+  
+  <title>archives: 1/2021: 2021 [ WENDUO&#39;S BLOG ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//lib.baomitu.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
 <meta name="generator" content="Hexo 6.3.0"></head>
-<body class="font-sans bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-200">
-  <header class="fixed w-full px-5 py-1 z-10 backdrop-blur-xl backdrop-saturate-150 border-b border-black/5">
-  <div class="max-auto">
-    <nav class="flex items-center text-base">
-      <a href="/" class="group">
-        <h2 class="font-medium tracking-tighterp text-l p-2">
-          <img class="w-5 mr-2 inline-block transition-transform group-hover:rotate-[30deg]" src="/images/logo.svg" alt="WENDUO'S BLOG" />
-          WENDUO&#39;S BLOG
-        </h2>
-      </a>
-      <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
-        项目
-      </div>
-      <div class="flex-1"></div>
-      <div class="flex items-center gap-3">
-        
-          <a class="hidden sm:flex" href="/archives">Posts</a>
-        
-        
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+      <img class="avatar" src="http://weiwenduo.github.io/images/logo2.svg">
+    
+    <span class="title" style="text-transform:none">WENDUO&#39;S BLOG</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
           
-            <a class="w-5 h-5 hidden sm:flex" title="Github" target="_blank" rel="noopener" href="https://github.com/weiwenduo">
-              <iconify-icon width="20" icon="ri:github-line"></iconify-icon>
-            </a>
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
           
-        
-        <a class="w-5 h-5" title="toggle theme">
-          <iconify-icon width="20" icon="ri:sun-line" id="toggle-dark"></iconify-icon>
+      
+          
+            
+              <li class="pure-menu-item"><a href="/categories" class="pure-menu-link">分类</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item actived"><a href="/archives" class="pure-menu-link">归档</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      
+
+  
+  
+    
+    
+    <section class="post page archives">
+      <h3 class="archive-year-wrap">
+        <a href="/archives/2021" class="archive-year">
+          2021
         </a>
-      </div>
-      <div class="flex items-center justify-center gap-3 ml-3 sm:hidden">
-        <span class="w-5 h-5" aria-hidden="true" role="img" id="open-menu">
-          <iconify-icon width="20" icon="carbon:menu" ></iconify-icon>
-        </span>
-        <span class="w-5 h-5 hidden" aria-hidden="true" role="img" id="close-menu">
-          <iconify-icon  width="20" icon="carbon:close" ></iconify-icon>
-        </span>
-      </div>
-    </nav>
-  </div>
-</header>
-<div id="menu-panel" class="h-0 overflow-hidden sm:hidden fixed left-0 right-0 top-12 bottom-0 z-10">
-  <div id="menu-content" class="relative z-20 bg-white/80 px-6 sm:px-8 py-2 backdrop-blur-xl -translate-y-full transition-transform duration-300">
-    <ul class="nav flex flex-col sm:flex-row text-sm font-medium">
-      
-        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
-          <a href="/archives" class="flex h-12 sm:h-auto items-center">Posts</a>
-        </li>
-      
-    </ul>
-  </div>
-  <div class="mask bg-black/20 absolute inset-0"></div>
+      </h3>
+      <div class="archives">
+  
+  <div class="archive" >
+  <a class="post-go" href="/2021/01/27/如何获取泛型的Class类型/">
+    <div>
+      <span class="date">
+        01-27
+      </span>
+      <span class="slash">/</span>
+      如何获取泛型的Class对象
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!---->
+    <!--</div>-->
+  </a>
+
 </div>
 
-  <main class="p-12">
-    <section class="px-6 max-w-prose mx-auto gap-12 grid grid-cols-1">
-  <div class="flex flex-col h-48 items-center justify-center">
-    <h1 class="site-title text-4xl leading-relaxed">
-      WENDUO&#39;S BLOG
-    </h1>
-    <p class="text-gray-500 mt-2">
-      
-    </p>
-  </div>
-  
-  
+
+  </div></section>
+
+    </div>
+
     
-    
-      <div class="relative pointer-events-none">
-        <span class="text-9xl opacity-10 absolute -left-11 -top-6 font-bold">2021</span>
-      </div>
-    
-    <a href="/2021/01/27/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E6%B3%9B%E5%9E%8B%E7%9A%84Class%E7%B1%BB%E5%9E%8B/">
-      <header>
-        <h2 class="font-bold text-xl">
-          如何获取泛型的Class对象
-        </h2>
-      </header>
-      <section class="text-gray-400 my-1 text-sm time">
-        <p class="line-clamp-4">
-          
-        </p>
-        <p class="line-clamp-4">
-          1月 27
-          ·
-          1 min
-        </p>
-      </section>
-    </a>
-  
-</section>
 
-  </main>
-  <footer class="flex flex-col h-40 items-center justify-center text-gray-400 text-sm">
-  <!-- busuanzi -->
-  
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<!-- Busuanzi Analytics -->
-<div class="flex items-center gap-2">
-  <span>Visitor Count</span>
-  <span id="busuanzi_value_site_uv"></span>
-  <span>Totalview</span>
-  <span id="busuanzi_value_site_pv"></span>
-</div>
-<!-- End Busuanzi Analytics -->
-
-
-  <!-- copyright -->
-  <div class="flex items-center gap-2">
-    <span>© 2022</span>
-    <iconify-icon width="18" icon="emojione-monotone:maple-leaf" ></iconify-icon>
-    <a href="https://github.com/xbmlz" target="_blank" rel="noopener noreferrer">xbmlz</a>
   </div>
-  <!-- powered by -->
-  <div class="flex items-center gap-2">
-    <span>Powered by</span>
-    <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer">Hexo</a>
-    <span>&</span>
-    <a href="https://github.com/xbmlz/hexo-theme-maple" target="_blank" rel="noopener noreferrer">Maple</a>
-  </div>
-
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/weiwenduo" target="_blank">GitHub</a> |
+        <!-- <a class="bottom-item" href="">友情链接</a> | -->
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a>
+        <!-- <a class="bottom-item" href="/atom.xml">RSS</a> -->
+    </div>
 </footer>
 
-  <iconify-icon class="fixed right-4 bottom-10 z-100 opacity-0" width="24" icon="ion:arrow-up-c" id="go-top"></iconify-icon>
   
-<script src="/lib/clipboard.min.js"></script>
-
-
-
-<script src="/js/main.js"></script>
-
-
-
-
-
-
-
-<script src="/lib/fancybox/fancybox.umd.min.js"></script>
 
 <script>
-  $(document).ready(() => {
-    $('.post-content').each(function(i){
-      $(this).find('img').each(function(){
-        if ($(this).parent().hasClass('fancybox') || $(this).parent().is('a')) return;
-        var alt = this.alt;
-        if (alt) $(this).after('<span class="fancybox-alt">' + alt + '</span>');
-        $(this).wrap('<a class="fancybox-img" href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
-      });
-      $(this).find('.fancybox').each(function(){
-        $(this).attr('rel', 'article' + i);
-      });
-    });
+  (function(window, document, undefined) {
 
-    Fancybox.bind('[data-fancybox="gallery"]', {
-        // options
-    })
-  })
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
 </script>
 
-<!-- tocbot begin -->
+  
 
-<script src="/lib/tocbot/tocbot.min.js"></script>
 
-<script>
-  $(document).ready(() => {
-      tocbot.init({
-        // Where to render the table of contents.
-        tocSelector: '.post-toc',
-        // Where to grab the headings to build the table of contents.
-        contentSelector: '.post-content',
-        // Which headings to grab inside of the contentSelector element.
-        headingSelector: 'h1, h2, h3',
-        // For headings inside relative or absolute positioned containers within content.
-        hasInnerContainers: true,
-    });
-  })
-</script>
-<!-- tocbot end -->
 
+  
 
 </body>
-
 </html>
